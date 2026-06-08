@@ -1,0 +1,96 @@
+{
+  "generated_at": "2026-06-08T13:50:44.324Z",
+  "results": [
+    {
+      "file": "adhar1_2366193f.jpg",
+      "docType": "RESUME",
+      "staticScore": 100,
+      "llmScore": 7.8,
+      "finalScore": 8.9,
+      "productionReady": true,
+      "missingFields": [
+        "personal.linkedin",
+        "skills (empty)",
+        "certifications (empty)",
+        "languages (empty)"
+      ],
+      "lowConfidenceFields": [],
+      "weaknesses": [],
+      "improvements": [
+        "Improve OCR noise handling for better accuracy",
+        "Add more robust validation for missing or invalid data points"
+      ]
+    },
+    {
+      "file": "pan_1.jpg",
+      "docType": "PASSPORT",
+      "staticScore": 83.33333333333333,
+      "llmScore": 7.8,
+      "finalScore": 8.066666666666666,
+      "productionReady": true,
+      "missingFields": [
+        "personal.dob",
+        "personal.gender",
+        "personal.nationality",
+        "personal.place_of_birth",
+        "mrz"
+      ],
+      "lowConfidenceFields": [],
+      "weaknesses": [],
+      "improvements": [
+        "Improve OCR noise handling for better accuracy",
+        "Refine schema to capture more details of address and contact",
+        "Add more robust error handling for missing or invalid data"
+      ]
+    },
+    {
+      "file": "Passport2.jpg",
+      "docType": "RESUME",
+      "staticScore": 100,
+      "llmScore": 7.8,
+      "finalScore": 8.9,
+      "productionReady": true,
+      "missingFields": [
+        "skills (empty)",
+        "certifications (empty)",
+        "languages (empty)"
+      ],
+      "lowConfidenceFields": [],
+      "weaknesses": [],
+      "improvements": [
+        "Improve OCR noise handling for better accuracy",
+        "Add more robust validation for missing data and incomplete fields"
+      ]
+    },
+    {
+      "file": "resume_sample_student8ea47e04a8fe67e6b7acff0000376a3b.pdf",
+      "docType": "AADHAAR",
+      "staticScore": 50,
+      "llmScore": 0,
+      "finalScore": 2.5,
+      "productionReady": false,
+      "missingFields": [],
+      "lowConfidenceFields": [],
+      "weaknesses": [],
+      "improvements": []
+    },
+    {
+      "file": "sample-pdf-invoice.pdf",
+      "docType": "INVOICE",
+      "staticScore": 60,
+      "llmScore": 7.5,
+      "finalScore": 6.75,
+      "productionReady": true,
+      "missingFields": [],
+      "lowConfidenceFields": [],
+      "weaknesses": [
+        "[type_detection] Some false positives on the edge of the invoice text.",
+        "[field_coverage] Missing some fields like 'payment method' and 'total amount'.",
+        "[ocr_noise_handling] False positives and negatives are mostly confined to the edge of the document."
+      ],
+      "improvements": [
+        "Refine the schema to explicitly define the supported document types and their corresponding field names."
+      ]
+    }
+  ]
+}
