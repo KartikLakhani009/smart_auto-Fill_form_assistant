@@ -1,14 +1,19 @@
 import 'dotenv/config';
 import { GoogleGenAI } from '@google/genai';
-import { EVALUATION_PROMPT, UNIFIED_PROMPT } from './prompts.js';
-import { extractJson } from './utils.js';
+import { EVALUATION_PROMPT_GEMINI, EVALUATION_PROMPT_LOCAL, UNIFIED_PROMPT } from './prompts.js';
+import { GEMINI_EVALUATION_SCHEMA, LOCAL_FIXED_DIMENSIONS, OLLAMA_EVALUATION_SCHEMA } from './schemas.js';
+import { extractJson, preprocessOcr } from './utils.js';
 import type {
   DocumentType,
   ExtractedDocument,
+  ExtractionResult,
   FieldConfidenceMap,
   LlmEvaluationResult,
   LlmProvider,
 } from './types.js';
+
+const GEMINI_EXTRACT_MODEL = 'gemini-2.0-flash';
+const GEMINI_EVAL_MODEL = 'gemini-2.5-flash';
 
 const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
 
@@ -42,7 +47,7 @@ export async function withRetry<T>(fn: () => Promise<T>, label: string, maxRetri
 
 // ─── Ollama ───────────────────────────────────────────────────────────────────
 
-async function callOllama(system: string, prompt: string): Promise<string> {
+async function callOllama(system: string, prompt: string, schema?: object): Promise<string> {
   let res: Response;
   try {
     res = await fetch(`${OLLAMA_BASE}/api/generate`, {
@@ -53,7 +58,8 @@ async function callOllama(system: string, prompt: string): Promise<string> {
         system: system || undefined,
         prompt,
         stream: false,
-        format: 'json',
+        // schema object = structured output (Ollama v0.5+); string 'json' = generic JSON mode
+        format: schema ?? 'json',
         options: { temperature: 0 },
       }),
     });
@@ -75,22 +81,27 @@ async function callOllama(system: string, prompt: string): Promise<string> {
 export async function extractFields(
   ocrText: string,
   provider: LlmProvider = 'local',
-): Promise<ExtractedDocument> {
+): Promise<ExtractionResult> {
+  const cleaned = preprocessOcr(ocrText);
+
   if (provider === 'local') {
     console.log(`[local] extracting with ${OLLAMA_MODEL}…`);
-    const text = await callOllama(UNIFIED_PROMPT, `OCR Text:\n\n${ocrText}`);
-    const parsed = extractJson(text);
+    const rawResponse = await callOllama(UNIFIED_PROMPT, `OCR Text:\n\n${cleaned}`);
+    const parsed = extractJson(rawResponse);
     return {
-      type: (parsed.type as DocumentType) ?? 'UNKNOWN',
-      confidence: (parsed.confidence as FieldConfidenceMap) ?? {},
-      ...parsed,
+      rawResponse,
+      document: {
+        type: (parsed.type as DocumentType) ?? 'UNKNOWN',
+        confidence: (parsed.confidence as FieldConfidenceMap) ?? {},
+        ...parsed,
+      },
     };
   }
 
   const response = await withRetry(
     () => ai.models.generateContent({
-      model: 'gemini-2.0-flash',
-      contents: `OCR Text:\n\n${ocrText}`,
+      model: GEMINI_EXTRACT_MODEL,
+      contents: `OCR Text:\n\n${cleaned}`,
       config: {
         systemInstruction: UNIFIED_PROMPT,
         temperature: 0,
@@ -104,11 +115,15 @@ export async function extractFields(
     input: response.usageMetadata?.promptTokenCount ?? 0,
     output: response.usageMetadata?.candidatesTokenCount ?? 0,
   });
-  const parsed = extractJson(response.text ?? '{}');
+  const rawResponse = response.text ?? '{}';
+  const parsed = extractJson(rawResponse);
   return {
-    type: (parsed.type as DocumentType) ?? 'UNKNOWN',
-    confidence: (parsed.confidence as FieldConfidenceMap) ?? {},
-    ...parsed,
+    rawResponse,
+    document: {
+      type: (parsed.type as DocumentType) ?? 'UNKNOWN',
+      confidence: (parsed.confidence as FieldConfidenceMap) ?? {},
+      ...parsed,
+    },
   };
 }
 
@@ -117,22 +132,34 @@ export async function extractFields(
 export async function evaluateExtraction(
   docType: string,
   ocrText: string,
-  provider: LlmProvider = 'gemini',
+  extracted: ExtractedDocument,
+  provider: LlmProvider = 'local',
 ): Promise<LlmEvaluationResult> {
+  const extractedJson = JSON.stringify(extracted, null, 2);
+  const cleanedOcr = preprocessOcr(ocrText);
+
   if (provider === 'local') {
     console.log(`[local] evaluating with ${OLLAMA_MODEL}…`);
-    const text = await callOllama('', EVALUATION_PROMPT(docType, UNIFIED_PROMPT, ocrText));
-    return extractJson(text) as unknown as LlmEvaluationResult;
+    const text = await callOllama(
+      '',
+      EVALUATION_PROMPT_LOCAL(docType, cleanedOcr, extractedJson),
+      OLLAMA_EVALUATION_SCHEMA,
+    );
+    const result = extractJson(text) as unknown as LlmEvaluationResult;
+    // Merge in the 3 fixed dimensions not scored by small models
+    result.dimensions = { ...result.dimensions, ...LOCAL_FIXED_DIMENSIONS };
+    return result;
   }
 
   const response = await withRetry(
     () => ai.models.generateContent({
-      model: 'gemini-2.5-flash',
-      contents: EVALUATION_PROMPT(docType, UNIFIED_PROMPT, ocrText),
+      model: GEMINI_EVAL_MODEL,
+      contents: EVALUATION_PROMPT_GEMINI(docType, cleanedOcr, extractedJson),
       config: {
         temperature: 0,
         maxOutputTokens: 3000,
         responseMimeType: 'application/json',
+        responseSchema: GEMINI_EVALUATION_SCHEMA,
       },
     }),
     'evaluate',

@@ -5,8 +5,9 @@ import path from 'node:path';
 import { extractTextFromImage, extractTextFromPdf } from './ocr.js';
 import { extractFields } from './llm.js';
 import { scoreExtraction } from './scoring.js';
-import { findMissingFields } from './utils.js';
-import type { ExtractedDocument, LlmProvider, OcrResult } from './types.js';
+import { findMissingFields, detectOcrSignals } from './utils.js';
+import { USE_MODEL_TYPE } from './config.js';
+import type { DocumentType, ExtractedDocument, LlmProvider, OcrResult } from './types.js';
 
 // ─── OCR dispatcher ───────────────────────────────────────────────────────────
 
@@ -74,11 +75,25 @@ async function run(filePath: string, provider: LlmProvider): Promise<void> {
   console.log(`Extracted ${ocr.text.length} chars via ${ocr.source}`);
 
   console.log('\nExtracting fields...');
-  const extracted = await extractFields(ocr.text, provider);
-  console.log(`Document type: ${extracted.type}`);
+  const { document: extracted } = await extractFields(ocr.text, provider);
+
+  const ocrSignals = detectOcrSignals(ocr.text);
+  const signalType = ocrSignals.suggestedType !== 'UNKNOWN' ? ocrSignals.suggestedType : null;
+  const effectiveType: DocumentType = USE_MODEL_TYPE
+    ? extracted.type
+    : (signalType ?? extracted.type);
+  const docForScoring: ExtractedDocument = effectiveType !== extracted.type
+    ? { ...extracted, type: effectiveType }
+    : extracted;
+
+  if (effectiveType !== extracted.type) {
+    console.log(`Document type: ${extracted.type} (model) → ${effectiveType} (overridden by OCR signals, USE_MODEL_TYPE=false)`);
+  } else {
+    console.log(`Document type: ${extracted.type}`);
+  }
 
   console.log('\nScoring extraction quality...');
-  const scoring = await scoreExtraction(extracted, ocr.text, provider);
+  const scoring = await scoreExtraction(docForScoring, ocr.text, provider);
   console.log(
     `Scores — Static: ${scoring.staticScore.toFixed(1)}/100  ` +
     `LLM: ${scoring.llmScore}/10  Final: ${scoring.finalScore.toFixed(2)}/10`,
@@ -92,9 +107,13 @@ async function run(filePath: string, provider: LlmProvider): Promise<void> {
 
   const finalOutput = {
     ...reviewed,
+    type: effectiveType,
     _meta: {
       source_file: path.basename(filePath),
       ocr_confidence: ocr.confidence,
+      model_doc_type: extracted.type,
+      effective_doc_type: effectiveType,
+      use_model_type: USE_MODEL_TYPE,
       static_score: Number(scoring.staticScore.toFixed(1)),
       llm_score: scoring.llmScore,
       final_score: Number(scoring.finalScore.toFixed(2)),

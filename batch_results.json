@@ -1,96 +1,696 @@
 {
-  "generated_at": "2026-06-08T13:50:44.324Z",
+  "generated_at": "2026-06-09T11:52:41.766Z",
   "results": [
     {
       "file": "adhar1_2366193f.jpg",
-      "docType": "RESUME",
-      "staticScore": 100,
-      "llmScore": 7.8,
-      "finalScore": 8.9,
-      "productionReady": true,
+      "modelDocType": "AADHAAR",
+      "effectiveDocType": "AADHAAR",
+      "staticScore": 83.33333333333333,
+      "llmScore": 0.5,
+      "finalScore": 4.416666666666666,
+      "productionReady": false,
       "missingFields": [
-        "personal.linkedin",
-        "skills (empty)",
-        "certifications (empty)",
-        "languages (empty)"
+        "id",
+        "id.aadhaar_number"
       ],
       "lowConfidenceFields": [],
       "weaknesses": [],
       "improvements": [
-        "Improve OCR noise handling for better accuracy",
-        "Add more robust validation for missing or invalid data points"
-      ]
+        "Correct the OCR text to match expected format.",
+        "Ensure all required fields are populated."
+      ],
+      "llmExtractionRaw": "{\n \"type\": \"AADHAAR\",\n \"id\": {\n   \"aadhaar_number\": \"\"\n },\n \"personal\": {\n   \"name\": \"Sriram Mamundi\",\n   \"dob\": \"11/04/1992\"\n },\n \"gender\": \"Male\"\n }",
+      "extractedFields": {
+        "type": "AADHAAR",
+        "confidence": {},
+        "id": {
+          "aadhaar_number": ""
+        },
+        "personal": {
+          "name": "Sriram Mamundi",
+          "dob": "11/04/1992"
+        },
+        "gender": "Male"
+      },
+      "llmEvaluation": {
+        "document_type": "AADHAAR",
+        "overall_score": 0.5,
+        "grade": "C",
+        "dimensions": {
+          "type_detection": {
+            "score": 10,
+            "reason": "",
+            "strength": "",
+            "weakness": ""
+          },
+          "field_coverage": {
+            "score": 3,
+            "reason": "",
+            "strength": "",
+            "weakness": ""
+          },
+          "value_accuracy": {
+            "score": 5,
+            "reason": "",
+            "strength": "",
+            "weakness": ""
+          },
+          "ocr_noise_handling": {
+            "score": 8,
+            "reason": "not scored",
+            "strength": "",
+            "weakness": ""
+          },
+          "json_output_reliability": {
+            "score": 10,
+            "reason": "JSON present",
+            "strength": "",
+            "weakness": ""
+          },
+          "completeness": {
+            "score": 3,
+            "reason": "",
+            "strength": "",
+            "weakness": ""
+          },
+          "confidence_calibration": {
+            "score": 5,
+            "reason": "not scored",
+            "strength": "",
+            "weakness": ""
+          }
+        },
+        "missing_fields": [
+          "id"
+        ],
+        "recommended_improvements": [
+          "Correct the OCR text to match expected format.",
+          "Ensure all required fields are populated."
+        ],
+        "production_ready": false,
+        "simulated_extraction": {
+          "type": "AADHAAR",
+          "confidence": {},
+          "id": {
+            "aadhaar_number": ""
+          },
+          "personal": {
+            "name": "Sriram Mamundi",
+            "dob": "11/04/1992"
+          }
+        }
+      },
+      "ocrText": "5\n2 am— - : :\nBS 7 Wf rid wr per.\nSriram Mamundi\nUmps prer / DOB : 11/04/1992\noir | MALE SIS he >\nBRET\n8416 1590 3267  EEHEEl\na5 - ar srrent wef seaflar gdlesryod",
+      "ocrLength": 162,
+      "ocrCleaned": "Sriram Mamundi\nUmps prer / DOB : 11/04/1992\noir | MALE SIS he >\nBRET\n8416 1590 3267  EEHEEl\na5 - ar srrent wef seaflar gdlesryod",
+      "ocrCleanedLength": 128,
+      "ocrSignals": {
+        "suggestedType": "AADHAAR",
+        "matchedKeywords": {
+          "AADHAAR": [
+            "\\b\\d{4}\\s\\d{4}\\s\\d{4}\\b"
+          ]
+        },
+        "signalCounts": {
+          "AADHAAR": 1
+        },
+        "topCount": 1
+      },
+      "classificationMatch": true
     },
     {
       "file": "pan_1.jpg",
-      "docType": "PASSPORT",
-      "staticScore": 83.33333333333333,
-      "llmScore": 7.8,
-      "finalScore": 8.066666666666666,
-      "productionReady": true,
-      "missingFields": [
-        "personal.dob",
-        "personal.gender",
-        "personal.nationality",
-        "personal.place_of_birth",
-        "mrz"
-      ],
-      "lowConfidenceFields": [],
-      "weaknesses": [],
-      "improvements": [
-        "Improve OCR noise handling for better accuracy",
-        "Refine schema to capture more details of address and contact",
-        "Add more robust error handling for missing or invalid data"
-      ]
-    },
-    {
-      "file": "Passport2.jpg",
-      "docType": "RESUME",
-      "staticScore": 100,
-      "llmScore": 7.8,
-      "finalScore": 8.9,
-      "productionReady": true,
-      "missingFields": [
-        "skills (empty)",
-        "certifications (empty)",
-        "languages (empty)"
-      ],
-      "lowConfidenceFields": [],
-      "weaknesses": [],
-      "improvements": [
-        "Improve OCR noise handling for better accuracy",
-        "Add more robust validation for missing data and incomplete fields"
-      ]
-    },
-    {
-      "file": "resume_sample_student8ea47e04a8fe67e6b7acff0000376a3b.pdf",
-      "docType": "AADHAAR",
+      "modelDocType": "UNKNOWN",
+      "effectiveDocType": "PAN",
       "staticScore": 50,
-      "llmScore": 0,
-      "finalScore": 2.5,
+      "llmScore": 0.7,
+      "finalScore": 2.85,
       "productionReady": false,
       "missingFields": [],
       "lowConfidenceFields": [],
       "weaknesses": [],
-      "improvements": []
+      "improvements": [
+        "Populate missing fields"
+      ],
+      "llmExtractionRaw": "{\n  \"type\": \"UNKNOWN\",\n  \"confidence\": {\"Permanent Account Number\": 0.7},\n  \"raw_fields\": {\n    \"Permanent Account Number\": \"Y Lid ae oe\"\n  }\n}",
+      "extractedFields": {
+        "type": "UNKNOWN",
+        "confidence": {
+          "Permanent Account Number": 0.7
+        },
+        "raw_fields": {
+          "Permanent Account Number": "Y Lid ae oe"
+        }
+      },
+      "llmEvaluation": {
+        "document_type": "PAN",
+        "overall_score": 0.7,
+        "grade": "C",
+        "dimensions": {
+          "type_detection": {
+            "score": 10,
+            "reason": "",
+            "strength": "",
+            "weakness": ""
+          },
+          "field_coverage": {
+            "score": 5,
+            "reason": "",
+            "strength": "",
+            "weakness": ""
+          },
+          "value_accuracy": {
+            "score": 0,
+            "reason": "",
+            "strength": "",
+            "weakness": ""
+          },
+          "ocr_noise_handling": {
+            "score": 5,
+            "reason": "not scored",
+            "strength": "",
+            "weakness": ""
+          },
+          "json_output_reliability": {
+            "score": 8,
+            "reason": "JSON present",
+            "strength": "",
+            "weakness": ""
+          },
+          "completeness": {
+            "score": 0,
+            "reason": "",
+            "strength": "",
+            "weakness": ""
+          },
+          "confidence_calibration": {
+            "score": 5,
+            "reason": "not scored",
+            "strength": "",
+            "weakness": ""
+          }
+        },
+        "missing_fields": [],
+        "recommended_improvements": [
+          "Populate missing fields"
+        ],
+        "production_ready": false,
+        "simulated_extraction": {
+          "type": "PAN",
+          "confidence": {
+            "score": 0.7,
+            "reason": "",
+            "strength": "",
+            "weakness": ""
+          },
+          "raw_fields": {
+            "Permanent Account Number": "Y Lid ae oe"
+          }
+        }
+      },
+      "ocrText": "SMASH TAT 1H HARA AIH\nINCOME TAX DEPARTMENT €p GOVT OF INDIA\nHegHe\n\nTWITTERPREET SINGH = Poe\nBALWINDER SINGH + ae Be\nAT 72.0 Ys |\n\nSU 95 4 i Gh edts\nPermanent Account Number Y Lid {\n\nBWZPS1234R a oe\nTwitterpreet Singh bh ve 3\nSignature J la i %",
+      "ocrLength": 244,
+      "ocrCleaned": "SMASH TAT 1H HARA AIH\nINCOME TAX DEPARTMENT €p GOVT OF INDIA\nHegHe\nTWITTERPREET SINGH = Poe\nBALWINDER SINGH + ae Be\nSU 95 4 i Gh edts\nPermanent Account Number Y Lid {\nBWZPS1234R a oe\nTwitterpreet Singh bh ve 3\nSignature J la i %",
+      "ocrCleanedLength": 228,
+      "ocrSignals": {
+        "suggestedType": "PAN",
+        "matchedKeywords": {
+          "PAN": [
+            "income tax department",
+            "permanent account number",
+            "\\b[a-z]{5}\\d{4}[a-z]\\b"
+          ]
+        },
+        "signalCounts": {
+          "PAN": 3
+        },
+        "topCount": 3
+      },
+      "classificationMatch": false
     },
     {
-      "file": "sample-pdf-invoice.pdf",
-      "docType": "INVOICE",
-      "staticScore": 60,
-      "llmScore": 7.5,
-      "finalScore": 6.75,
-      "productionReady": true,
-      "missingFields": [],
+      "file": "indianpp_passport.jpg",
+      "modelDocType": "UNKNOWN",
+      "effectiveDocType": "PASSPORT",
+      "staticScore": 50,
+      "llmScore": 0.5,
+      "finalScore": 2.75,
+      "productionReady": false,
+      "missingFields": [
+        "ID Number",
+        "reason"
+      ],
       "lowConfidenceFields": [],
       "weaknesses": [
-        "[type_detection] Some false positives on the edge of the invoice text.",
-        "[field_coverage] Missing some fields like 'payment method' and 'total amount'.",
-        "[ocr_noise_handling] False positives and negatives are mostly confined to the edge of the document."
+        "[value_accuracy] Fabricated or incorrect"
       ],
       "improvements": [
-        "Refine the schema to explicitly define the supported document types and their corresponding field names."
-      ]
+        "Correct the OCR text to accurately capture name, date of birth and issue/expiry dates",
+        "Ensure ID number is present in extracted data",
+        "Verify accuracy of all values against original document"
+      ],
+      "llmExtractionRaw": "{\n \"type\": \"UNKNOWN\",\n \"id\": {\n  \n },\n \"reason\": \"\",\n \"possible_type\": \"AADHAAR/PAN/PASSPORT/DRIVING_LICENSE/INSURANCE/INVOICE/KYC/RESUME\",\n \n \"raw_fields\": {\n   \n }\n}",
+      "extractedFields": {
+        "type": "UNKNOWN",
+        "confidence": {},
+        "id": {},
+        "reason": "",
+        "possible_type": "AADHAAR/PAN/PASSPORT/DRIVING_LICENSE/INSURANCE/INVOICE/KYC/RESUME",
+        "raw_fields": {}
+      },
+      "llmEvaluation": {
+        "document_type": "PASSPORT",
+        "overall_score": 0.5,
+        "grade": "C",
+        "dimensions": {
+          "type_detection": {
+            "score": 10,
+            "reason": "",
+            "strength": "",
+            "weakness": ""
+          },
+          "field_coverage": {
+            "score": 2,
+            "reason": "",
+            "strength": "",
+            "weakness": ""
+          },
+          "value_accuracy": {
+            "score": 0,
+            "reason": "Extracted values do not match OCR text",
+            "strength": "",
+            "weakness": "Fabricated or incorrect"
+          },
+          "ocr_noise_handling": {
+            "score": 5,
+            "reason": "not scored",
+            "strength": "",
+            "weakness": ""
+          },
+          "json_output_reliability": {
+            "score": 8,
+            "reason": "JSON present",
+            "strength": "",
+            "weakness": ""
+          },
+          "completeness": {
+            "score": 0,
+            "reason": "Name/date/id fields are not populated",
+            "strength": "",
+            "weakness": ""
+          },
+          "confidence_calibration": {
+            "score": 5,
+            "reason": "not scored",
+            "strength": "",
+            "weakness": ""
+          }
+        },
+        "missing_fields": [
+          "ID Number"
+        ],
+        "recommended_improvements": [
+          "Correct the OCR text to accurately capture name, date of birth and issue/expiry dates",
+          "Ensure ID number is present in extracted data",
+          "Verify accuracy of all values against original document"
+        ],
+        "production_ready": false
+      },
+      "ocrText": "HR TUNTSY / REPUBLIC OF INDIA\niE No WRdE/NDIAN 20000000\nIGA / Surname\nSPECIMEN pr —\nfat a1 ART / Given Namels) A ) ; = B= en,\n~~ KUMAR 6 ETE\n/ a : J Fifa / Date of Birth RT / Sex Re GEE\nW 23 24/05/1985 M pone is 4\n - J WAT Tar / Pace of Birth 7 * hn be 3\n- MUMBAI, MAHARASHTRA pa. J\n2 . FTE FRA BT RT / Place of Issue Lo\nBANGALORE RLS mr hg\nN-Woeses IH #1 $ firfe/ Date of Issue Fifa $ ff 7 Date of Expiry\nL 01/01/2013 01/01/2023\nP<<SPECIMEN<<KKUMAR<LGLLLLLLLLLLLLKLLLKLLKLKLLLKLKLKLKL\n219999999<0IND8505246M2300000<<<<<<K<<<<L<K<LK<LKL<L4",
+      "ocrLength": 539,
+      "ocrCleaned": "HR TUNTSY / REPUBLIC OF INDIA\niE No WRdE/NDIAN 20000000\nIGA / Surname\nSPECIMEN pr —\nfat a1 ART / Given Namels) A ) ; = B= en,\n~~ KUMAR 6 ETE\n/ a : J Fifa / Date of Birth RT / Sex Re GEE\nW 23 24/05/1985 M pone is 4\n - J WAT Tar / Pace of Birth 7 * hn be 3\n- MUMBAI, MAHARASHTRA pa. J\n2 . FTE FRA BT RT / Place of Issue Lo\nBANGALORE RLS mr hg\nN-Woeses IH #1 $ firfe/ Date of Issue Fifa $ ff 7 Date of Expiry\nL 01/01/2013 01/01/2023\nP<<SPECIMEN<<KKUMAR<LGLLLLLLLLLLLLKLLLKLLKLKLLLKLKLKLKL\n219999999<0IND8505246M2300000<<<<<<K<<<<L<K<LK<LKL<L4",
+      "ocrCleanedLength": 539,
+      "ocrSignals": {
+        "suggestedType": "PASSPORT",
+        "matchedKeywords": {
+          "PASSPORT": [
+            "republic of india",
+            "date of issue"
+          ]
+        },
+        "signalCounts": {
+          "PASSPORT": 2
+        },
+        "topCount": 2
+      },
+      "classificationMatch": false
+    },
+    {
+      "file": "resume_sample_student8ea47e04a8fe67e6b7acff0000376a3b.pdf",
+      "modelDocType": "RESUME",
+      "effectiveDocType": "RESUME",
+      "staticScore": 80,
+      "llmScore": 6.5,
+      "finalScore": 7.25,
+      "productionReady": false,
+      "missingFields": [
+        "education",
+        "referees",
+        "summary",
+        "experience.0.achievements (empty)",
+        "experience.1.achievements (empty)",
+        "experience.2.responsibilities (empty)",
+        "experience.2.achievements (empty)",
+        "experience.3.responsibilities (empty)",
+        "experience.3.achievements (empty)",
+        "education.0.degree",
+        "education.0.year",
+        "referees.0.contact",
+        "referees.0.relation"
+      ],
+      "lowConfidenceFields": [],
+      "weaknesses": [
+        "[field_coverage] Lack of formal qualifications or certifications mentioned",
+        "[completeness] Lack of work experience and education information"
+      ],
+      "improvements": [
+        "Include education details and referee contacts.",
+        "Add work experience relevant to the job applied for."
+      ],
+      "llmExtractionRaw": "{\n \"type\": \"RESUME\",\n \"personal\": {\n   \"name\": \"Hayden Smith\",\n   \"email\": \"haydensmith@email.com\"\n },\n \"summary\": \"\",\n \"skills\": [\n    \"Customer service ability demonstrated when working efficiently in soccer club canteen.\",\n    \"Numeracy skills for cash handling tasks proven by achieving good results for mathematics subjects.\",\n    \"Highly developed communication skills shown by receiving positive feedback from supervisors after completing work experience.\",\n    \"Strong ability to work as part of a team developed through participating in soccer since the age of eight.\",\n    \"Demonstrated organisation skills as a result handing all assignments in on time.\"\n ],\n \"experience\": [\n   {\n     \"company\": \"Park Hill Soccer Club\",\n     \"role\": \"Customer service (volunteer)\",\n     \"duration\": \"December 2016 – March 2017\",\n     \"responsibilities\": [\"Served customers.\", \"Handled cash including operating of cash register.\"],\n     \"achievements\": []\n   },\n   {\n     \"company\": \"Argo Newsagency\",\n     \"role\": \"Newspaper deliverer\",\n     \"duration\": \"June 2016 – February 2017\",\n     \"responsibilities\": [\"Delivered weekend newspapers to houses.\"],\n     \"achievements\": []\n   },\n   {\n     \"company\": \"Park Hill Soccer Club\",\n     \"role\": \"Soccer umpire for under 14 team\",\n     \"duration\": \"2016 – current\",\n     \"responsibilities\": [],\n     \"achievements\": []\n   },\n   {\n     \"company\": \"Park Hill Soccer Club\",\n     \"role\": \"Assistant Coach for junior players\",\n     \"duration\": \"2017 – current\",\n     \"responsibilities\": [],\n     \"achievements\": []\n   }\n ],\n \"education\": [\n    {\n      \"institution\": \"Park Hill Secondary College\",\n      \"degree\": \"\",\n      \"year\": \"\"\n    },\n    {\n      \"subjects\": [\"Maths\", \"English\", \"Business Management\", \"VET studies in Sport and Recreation\"],\n      \"type\": \"Year 11\"\n    }\n   ],\n \"referees\": [\n     {\n       \"name\": \"John Charles\",\n       \"contact\": \"\",\n       \"relation\": \"\"\n     },\n     {\n         \"name\": \"Wendy Stevens\",\n         \"relation\": \"Year 11 Coordinator\"\n     }\n   ],\n \"interests\": [\n    \"Played soccer since the age of eight.\",\n    \"Keen spectator of soccer, football and cricket.\"\n   ],\n \"availability\": {\n      \"Monday – Friday: 4.30pm – 10.00pm\":\"up to 20 hours per week\",\n      \"Saturday – Sunday: 8.00am – 11.00pm\":\"available on request\"\n   }\n}",
+      "extractedFields": {
+        "type": "RESUME",
+        "confidence": {},
+        "personal": {
+          "name": "Hayden Smith",
+          "email": "haydensmith@email.com"
+        },
+        "summary": "",
+        "skills": [
+          "Customer service ability demonstrated when working efficiently in soccer club canteen.",
+          "Numeracy skills for cash handling tasks proven by achieving good results for mathematics subjects.",
+          "Highly developed communication skills shown by receiving positive feedback from supervisors after completing work experience.",
+          "Strong ability to work as part of a team developed through participating in soccer since the age of eight.",
+          "Demonstrated organisation skills as a result handing all assignments in on time."
+        ],
+        "experience": [
+          {
+            "company": "Park Hill Soccer Club",
+            "role": "Customer service (volunteer)",
+            "duration": "December 2016 – March 2017",
+            "responsibilities": [
+              "Served customers.",
+              "Handled cash including operating of cash register."
+            ],
+            "achievements": []
+          },
+          {
+            "company": "Argo Newsagency",
+            "role": "Newspaper deliverer",
+            "duration": "June 2016 – February 2017",
+            "responsibilities": [
+              "Delivered weekend newspapers to houses."
+            ],
+            "achievements": []
+          },
+          {
+            "company": "Park Hill Soccer Club",
+            "role": "Soccer umpire for under 14 team",
+            "duration": "2016 – current",
+            "responsibilities": [],
+            "achievements": []
+          },
+          {
+            "company": "Park Hill Soccer Club",
+            "role": "Assistant Coach for junior players",
+            "duration": "2017 – current",
+            "responsibilities": [],
+            "achievements": []
+          }
+        ],
+        "education": [
+          {
+            "institution": "Park Hill Secondary College",
+            "degree": "",
+            "year": ""
+          },
+          {
+            "subjects": [
+              "Maths",
+              "English",
+              "Business Management",
+              "VET studies in Sport and Recreation"
+            ],
+            "type": "Year 11"
+          }
+        ],
+        "referees": [
+          {
+            "name": "John Charles",
+            "contact": "",
+            "relation": ""
+          },
+          {
+            "name": "Wendy Stevens",
+            "relation": "Year 11 Coordinator"
+          }
+        ],
+        "interests": [
+          "Played soccer since the age of eight.",
+          "Keen spectator of soccer, football and cricket."
+        ],
+        "availability": {
+          "Monday – Friday: 4.30pm – 10.00pm": "up to 20 hours per week",
+          "Saturday – Sunday: 8.00am – 11.00pm": "available on request"
+        }
+      },
+      "llmEvaluation": {
+        "document_type": "RESUME",
+        "overall_score": 6.5,
+        "grade": "C",
+        "dimensions": {
+          "type_detection": {
+            "score": 10,
+            "reason": "",
+            "strength": "Exact match to DocType.",
+            "weakness": ""
+          },
+          "field_coverage": {
+            "score": 7,
+            "reason": "Missing education and referees fields",
+            "strength": "Key personal details extracted.",
+            "weakness": "Lack of formal qualifications or certifications mentioned"
+          },
+          "value_accuracy": {
+            "score": 9,
+            "reason": "Most values match OCR text.",
+            "strength": "",
+            "weakness": ""
+          },
+          "ocr_noise_handling": {
+            "score": 5,
+            "reason": "Some irrelevant information included in skills section",
+            "strength": "",
+            "weakness": ""
+          },
+          "json_output_reliability": {
+            "score": 8,
+            "reason": "JSON output is well-structured and complete.",
+            "strength": "",
+            "weakness": ""
+          },
+          "completeness": {
+            "score": 9,
+            "reason": "Name, email present",
+            "strength": "Personal details are populated.",
+            "weakness": "Lack of work experience and education information"
+          },
+          "confidence_calibration": {
+            "score": 7,
+            "reason": "",
+            "strength": "",
+            "weakness": ""
+          }
+        },
+        "missing_fields": [
+          "education",
+          "referees"
+        ],
+        "recommended_improvements": [
+          "Include education details and referee contacts.",
+          "Add work experience relevant to the job applied for."
+        ],
+        "production_ready": false
+      },
+      "ocrText": "Hayden   Smith  214 Mitre Avenue, Park Hill, 3045 | 04501 123 456 | haydensmith@email.com  Page 1  (Tip: Name, mobile number and email address are essential. Current address could be included especially if you live nearby. Ensure that it is clearly displayed)  Career Objective  I am reliable hard working Year 11 student seeking casual or part-time customer service work in a sports retail environment. Having played soccer for nine years and a keen all-round sports enthusiast, I am looking to contribute knowledge and proven communications skills.  (Tip: A career objective isn’t essential, but it’s useful if you don't have much experience and can convey enthusiasm and motivation. Briefly summarise any work you have done, your strengths and relevant expertise and state how you aim to apply this to your career goal. Adjust the statement to reflect the role you are applying for.)  Availability  Monday – Friday: 4.30pm – 10.00pm  Saturday – Sunday: 8.00am – 11.00pm  (up to 20 hours per week)  (Tip: When looking for part-time casual work, it can be a good idea to include availability. If you’re a student, clearly state the maximum number of hours you are able to work per week.)  Key Skills  •   Customer service ability demonstrated when working efficiently in soccer club canteen.  •   Numeracy skills for cash handling tasks proven by achieving good results for mathematics subjects.  •   Highly developed communication skills shown by receiving positive feedback from supervisors after completing work experience.  •   Strong ability to work as part of a team developed through participating in soccer since the age of eight.  •   Demonstrated organisation skills as a result handing all assignments in on time.  •   Able to take responsibility and solve problems proven through umpiring and coaching.  (Tip: Include 5-9 key skills as bullet points that you like using and that are relevant to the role. When applying for advertised roles, match to any criteria listed in the advertisement. Use action words such as ‘demonstrated’ or ‘highly developed’ and then provide information about when, where and how you’ve used the skill through your studies, work experience, volunteering, sporting activities, etc.)  Education  Current  Park Hill Secondary College   Year 11  •   Subjects include: Maths, English, Business Management, VET studies in Sport and Recreation.  (Tip: List your most recent education qualifications first including any relevant university degrees and certificates. Professional development such as short training courses, workshops, licences, forms of accreditation, and other training can be included but is usually a separate heading.)  Work Experience\n\nHayden Smith  Page 2  December 2016 – March 2017  Park Hill Soccer Club Canteen   Customer service (volunteer)  •   Served customers.  •   Handled cash including operating of cash register.  June 2016 – February 2017  Argo Newsagency   Newspaper deliverer  •   Delivered weekend newspapers to houses.  (Tip: Focus on most recent work experience first. Include your job title, organisation name and dates. Years and months can be included. Include responsibilities and achievements for each role.)  Leadership Roles  2016 – current  Soccer umpire for under 14 team   Park Hill Soccer Club  2017 – current  Assistant Coach for junior players   Park Hill Soccer Club  (Tip: Include any volunteering, community participation or leaderships roles.)  Interests/Hobbies  •   Played soccer since the age of eight.  •   Keen spectator of soccer, football and cricket.  (Tip: Including a section on interests can be useful if it’s relevant and active. Only include those interests which are relevant to the job you are applying for or those which demonstrate your proactive or positive traits.)  Referees  John Charles  Coach  Hill Park Soccer Club  0456 789 101  John_charles@hillpark.edu  Wendy Stevens  Year 11 Coordinator  Hill Park Secondary College  *Contact details available on request  (Tip: If you decide to include referee contacts, notify the referee and indicate the type of roles that you will be applying for. You may also want to provide them with a copy of your resume. You can also simply write ‘Available on request’.)",
+      "ocrLength": 4218,
+      "ocrCleaned": "Hayden   Smith  214 Mitre Avenue, Park Hill, 3045 | 04501 123 456 | haydensmith@email.com  Page 1  (Tip: Name, mobile number and email address are essential. Current address could be included especially if you live nearby. Ensure that it is clearly displayed)  Career Objective  I am reliable hard working Year 11 student seeking casual or part-time customer service work in a sports retail environment. Having played soccer for nine years and a keen all-round sports enthusiast, I am looking to contribute knowledge and proven communications skills.  (Tip: A career objective isn’t essential, but it’s useful if you don't have much experience and can convey enthusiasm and motivation. Briefly summarise any work you have done, your strengths and relevant expertise and state how you aim to apply this to your career goal. Adjust the statement to reflect the role you are applying for.)  Availability  Monday – Friday: 4.30pm – 10.00pm  Saturday – Sunday: 8.00am – 11.00pm  (up to 20 hours per week)  (Tip: When looking for part-time casual work, it can be a good idea to include availability. If you’re a student, clearly state the maximum number of hours you are able to work per week.)  Key Skills  •   Customer service ability demonstrated when working efficiently in soccer club canteen.  •   Numeracy skills for cash handling tasks proven by achieving good results for mathematics subjects.  •   Highly developed communication skills shown by receiving positive feedback from supervisors after completing work experience.  •   Strong ability to work as part of a team developed through participating in soccer since the age of eight.  •   Demonstrated organisation skills as a result handing all assignments in on time.  •   Able to take responsibility and solve problems proven through umpiring and coaching.  (Tip: Include 5-9 key skills as bullet points that you like using and that are relevant to the role. When applying for advertised roles, match to any criteria listed in the advertisement. Use action words such as ‘demonstrated’ or ‘highly developed’ and then provide information about when, where and how you’ve used the skill through your studies, work experience, volunteering, sporting activities, etc.)  Education  Current  Park Hill Secondary College   Year 11  •   Subjects include: Maths, English, Business Management, VET studies in Sport and Recreation.  (Tip: List your most recent education qualifications first including any relevant university degrees and certificates. Professional development such as short training courses, workshops, licences, forms of accreditation, and other training can be included but is usually a separate heading.)  Work Experience\nHayden Smith  Page 2  December 2016 – March 2017  Park Hill Soccer Club Canteen   Customer service (volunteer)  •   Served customers.  •   Handled cash including operating of cash register.  June 2016 – February 2017  Argo Newsagency   Newspaper deliverer  •   Delivered weekend newspapers to houses.  (Tip: Focus on most recent work experience first. Include your job title, organisation name and dates. Years and months can be included. Include responsibilities and achievements for each role.)  Leadership Roles  2016 – current  Soccer umpire for under 14 team   Park Hill Soccer Club  2017 – current  Assistant Coach for junior players   Park Hill Soccer Club  (Tip: Include any volunteering, community participation or leaderships roles.)  Interests/Hobbies  •   Played soccer since the age of eight.  •   Keen spectator of soccer, football and cricket.  (Tip: Including a section on interests can be useful if it’s relevant and active. Only include those interests which are relevant to the job you are applying for or those which demonstrate your proactive or positive traits.)  Referees  John Charles  Coach  Hill Park Soccer Club  0456 789 101  John_charles@hillpark.edu  Wendy Stevens  Year 11 Coordinator  Hill Park Secondary College  *Contact details available on request  (Tip: If you decide to include referee contacts, notify the referee and indicate the type of roles that you will be applying for. You may also want to provide them with a copy of your resume. You can also simply write ‘Available on request’.)",
+      "ocrCleanedLength": 4217,
+      "ocrSignals": {
+        "suggestedType": "RESUME",
+        "matchedKeywords": {
+          "RESUME": [
+            "career objective",
+            "work experience",
+            "key skills",
+            "education",
+            "resume",
+            "availability"
+          ]
+        },
+        "signalCounts": {
+          "RESUME": 6
+        },
+        "topCount": 6
+      },
+      "classificationMatch": true
+    },
+    {
+      "file": "wordpress-pdf-invoice-plugin-sample.pdf",
+      "modelDocType": "INVOICE",
+      "effectiveDocType": "INVOICE",
+      "staticScore": 90,
+      "llmScore": 0.5,
+      "finalScore": 4.75,
+      "productionReady": false,
+      "missingFields": [
+        "invoice number",
+        "due date",
+        "customer number",
+        "gstin",
+        "parties.from.customer_number",
+        "parties.from.gstin",
+        "parties.to.name",
+        "parties.to.address",
+        "parties.to.gstin",
+        "payment.status",
+        "payment.method",
+        "payment.bank"
+      ],
+      "lowConfidenceFields": [],
+      "weaknesses": [
+        "[completeness] Lack of ID/GSTIN information"
+      ],
+      "improvements": [
+        "Add 'INVOICE' as document type explicitly.",
+        "Include all required fields in the schema such as customer name, address and GSTIN."
+      ],
+      "llmExtractionRaw": "{\n \"type\": \"INVOICE\",\n \"document\": {\n     \"invoice_number\": \"INV-3337\",\n     \"invoice_date\": \"January 25, 2016\"\n },\n \"parties\": {\n     \"from\": {\n         \"name\": \"Test Business\",\n         \"address\": \"123 Somewhere St Melbourne, VIC 3000\",\n         \"customer_number\": \"\",\n         \"gstin\": \"\"\n     },\n     \"to\": {\n         \"name\": \"\",\n         \"address\": \"\",\n         \"gstin\": \"\"\n     }\n },\n \"items\": [\n     {\n         \"description\": \"Service\",\n         \"qty\": 1,\n         \"unit_price\": \"$85.00\",\n         \"amount\": \"$85.00\"\n     },\n     {\n         \"tax\": {\n             \"rate\": \"%\",\n             \"total\": \"$8.50\"\n         }\n     },\n     {\n         \"sub_total\": \"$85.00\"\n     },\n     {\n         \"amount_due\": \"$93.50\"\n     }\n ],\n \"payment\": {\n     \"status\": \"\",\n     \"method\": \"\",\n     \"bank\": \"\"\n }\n}",
+      "extractedFields": {
+        "type": "INVOICE",
+        "confidence": {},
+        "document": {
+          "invoice_number": "INV-3337",
+          "invoice_date": "January 25, 2016"
+        },
+        "parties": {
+          "from": {
+            "name": "Test Business",
+            "address": "123 Somewhere St Melbourne, VIC 3000",
+            "customer_number": "",
+            "gstin": ""
+          },
+          "to": {
+            "name": "",
+            "address": "",
+            "gstin": ""
+          }
+        },
+        "items": [
+          {
+            "description": "Service",
+            "qty": 1,
+            "unit_price": "$85.00",
+            "amount": "$85.00"
+          },
+          {
+            "tax": {
+              "rate": "%",
+              "total": "$8.50"
+            }
+          },
+          {
+            "sub_total": "$85.00"
+          },
+          {
+            "amount_due": "$93.50"
+          }
+        ],
+        "payment": {
+          "status": "",
+          "method": "",
+          "bank": ""
+        }
+      },
+      "llmEvaluation": {
+        "document_type": "INVOICE",
+        "overall_score": 0.5,
+        "grade": "C",
+        "dimensions": {
+          "type_detection": {
+            "score": 10,
+            "reason": "Exact match with DocType 'INVOICE'",
+            "strength": "Strong",
+            "weakness": ""
+          },
+          "field_coverage": {
+            "score": 4,
+            "reason": "Some non-null fields present in Extracted but missing schema fields like 'invoice number' and 'due date',",
+            "strength": "Moderate",
+            "weakness": ""
+          },
+          "value_accuracy": {
+            "score": 10,
+            "reason": "Extracted values match OCR text accurately.",
+            "strength": "Strong",
+            "weakness": ""
+          },
+          "ocr_noise_handling": {
+            "score": 5,
+            "reason": "Not scored as it's not part of the schema evaluation criteria.",
+            "strength": "",
+            "weakness": ""
+          },
+          "json_output_reliability": {
+            "score": 8,
+            "reason": "JSON present",
+            "strength": "Strong",
+            "weakness": ""
+          },
+          "completeness": {
+            "score": 2,
+            "reason": "Name and date fields are populated.",
+            "strength": "",
+            "weakness": "Lack of ID/GSTIN information"
+          },
+          "confidence_calibration": {
+            "score": 5,
+            "reason": "Not scored as it's not part of the schema evaluation criteria.",
+            "strength": "",
+            "weakness": ""
+          }
+        },
+        "missing_fields": [
+          "invoice number",
+          "due date",
+          "customer number",
+          "gstin"
+        ],
+        "recommended_improvements": [
+          "Add 'INVOICE' as document type explicitly.",
+          "Include all required fields in the schema such as customer name, address and GSTIN."
+        ],
+        "production_ready": false
+      },
+      "ocrText": "Invoice  Payment is due within 30 days from date of invoice. Late payment is subject to fees of 5% per month. Thanks for choosing DEMO - Sliced Invoices | admin@slicedinvoices.com Page 1/1  From:  DEMO - Sliced Invoices Suite 5A-1204 123 Somewhere Street Your City AZ 12345 admin@slicedinvoices.com Invoice Number   INV-3337 Order Number   12345 Invoice Date   January 25, 2016 Due Date   January 31, 2016  Total Due   $93.50 To:  Test Business 123 Somewhere St Melbourne, VIC 3000 test@test.com  Hrs/Qty   Service   Rate/Price   Adjust   Sub Total  1.00   Web Design This is a sample description...   $85.00   0.00%   $85.00 Sub Total   $85.00 Tax   $8.50  Total   $93.50  ANZ Bank ACC # 1234 1234 BSB # 4321 432  Paid",
+      "ocrLength": 719,
+      "ocrCleaned": "Invoice  Payment is due within 30 days from date of invoice. Late payment is subject to fees of 5% per month. Thanks for choosing DEMO - Sliced Invoices | admin@slicedinvoices.com Page 1/1  From:  DEMO - Sliced Invoices Suite 5A-1204 123 Somewhere Street Your City AZ 12345 admin@slicedinvoices.com Invoice Number   INV-3337 Order Number   12345 Invoice Date   January 25, 2016 Due Date   January 31, 2016  Total Due   $93.50 To:  Test Business 123 Somewhere St Melbourne, VIC 3000 test@test.com  Hrs/Qty   Service   Rate/Price   Adjust   Sub Total  1.00   Web Design This is a sample description...   $85.00   0.00%   $85.00 Sub Total   $85.00 Tax   $8.50  Total   $93.50  ANZ Bank ACC # 1234 1234 BSB # 4321 432  Paid",
+      "ocrCleanedLength": 719,
+      "ocrSignals": {
+        "suggestedType": "INVOICE",
+        "matchedKeywords": {
+          "INVOICE": [
+            "invoice",
+            "invoice number",
+            "invoice date"
+          ]
+        },
+        "signalCounts": {
+          "INVOICE": 3
+        },
+        "topCount": 3
+      },
+      "classificationMatch": true
     }
   ]
 }

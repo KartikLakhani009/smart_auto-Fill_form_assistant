@@ -34,10 +34,9 @@ export interface DimensionScore {
 
 export interface LlmEvaluationResult {
   document_type: string;
-  overall_score: number;
+  overall_score: number;   // 0–10
   grade: string;
   dimensions: Record<string, DimensionScore>;
-  simulated_extraction: Record<string, unknown>;
   missing_fields: string[];
   recommended_improvements: string[];
   production_ready: boolean;
@@ -48,4 +47,9 @@ export interface ScoringResult {
   llmScore: number;    // 0–10
   finalScore: number;  // 0–100
   evaluation: LlmEvaluationResult;
+}
+
+export interface ExtractionResult {
+  document: ExtractedDocument;
+  rawResponse: string; // raw LLM text before JSON parsing
 }

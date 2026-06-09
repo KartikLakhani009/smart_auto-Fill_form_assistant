@@ -1,253 +1,167 @@
-export const UNIFIED_PROMPT = `You are a document intelligence system.
+export const UNIFIED_PROMPT = `You are a document parser. Read OCR text, identify document type, extract fields.
+Output ONLY valid JSON matching the detected type schema. No explanation.
+ 
+<Detection>
+Check signals IN ORDER. First full match wins.
+ 
+<AADHAAR>MUST HAVE ALL: ("Government of India" OR "UIDAI") + name + DOB dd/mm/yyyy + gender + 12-digit XXXX XXXX XXXX</AADHAAR>
+<PAN>MUST HAVE ALL: "INCOME TAX DEPARTMENT" + "GOVT. OF INDIA" + name + father_name + dob dd/mm/yyyy + PAN format AAAAA9999A</PAN>
+<PASSPORT>MUST HAVE ALL: "REPUBLIC OF" + "PASSPORT" + passport_no(1letter+7digits) + surname + DOB + MRZ lines with "<<"</PASSPORT>
+<DRIVING_LICENSE>MUST HAVE ALL: ("Union of India" OR "DRIVING LICENCE") + DL No(2letters+digits) + DOI(issue date) + DOL/expiry</DRIVING_LICENSE> + name
+<INSURANCE>MUST HAVE ALL: "Policy No" + insured_name + expiry_date</INSURANCE>
+<INVOICE>MUST HAVE ALL: company_name + invoice_no + min 2 line_items with price + total_amount + date</INVOICE>
+<KYC>MUST HAVE: ("KYC" OR "Know Your Customer" in title) OR (occupation + income_range + source_of_funds + any ID number)</KYC>
+<RESUME>MUST HAVE ALL: person_name at top + (email OR phone) + (Skills OR Experience OR Education section). NO govt ID numbers.</RESUME>
+<UNKNOWN>Fewer than 2 signals match any type above.</UNKNOWN>
+</Detection>
+ 
+<Schemas>
+<AADHAAR>{"type":"AADHAAR","id":{"aadhaar_number":"","vid":""},"personal":{"name":"","dob":"","gender":"","address":""},"meta":{"issue_date":""}}</AADHAAR>
+<PAN>{"type":"PAN","id":{"pan_number":""},"personal":{"name":"","father_name":"","dob":""}}</PAN>
+<PASSPORT>{"type":"PASSPORT","personal":{"name":"","dob":"","gender":"","nationality":"","place_of_birth":""},"document":{"passport_number":"","issue_date":"","expiry_date":"","file_number":""},"mrz":""}</PASSPORT>
+<DRIVING_LICENSE>{"type":"DRIVING_LICENSE","id":{"license_number":""},"personal":{"name":"","dob":"","address":"","blood_group":""},"license":{"issue_date":"","expiry_date":"","vehicle_classes":[],"issuing_rto":""}}</DRIVING_LICENSE>
+<INSURANCE>{"type":"INSURANCE","document":{"policy_number":"","policy_type":"","issue_date":"","expiry_date":""},"insured":{"name":"","dob":"","address":""},"coverage":{"sum_insured":"","premium":"","payment_frequency":""},"nominee":{"name":"","relation":""},"insurer":{"company":"","contact":""}}</INSURANCE>
+<INVOICE>{"type":"INVOICE","document":{"invoice_number":"","invoice_date":"","due_date":"","po_number":""},"parties":{"from":{"name":"","address":"","gstin":""},"to":{"name":"","address":"","gstin":"","customer_number":""}},"items":[{"description":"","qty":"","unit_price":"","amount":""}],"totals":{"subtotal":"","tax":"","tax_rate":"","total":"","amount_due":""},"payment":{"status":"","method":"","bank":""}}</INVOICE>
+<KYC>{"type":"KYC","personal":{"name":"","dob":"","gender":"","nationality":""},"ids":{"pan":"","aadhaar":"","passport":""},"contact":{"phone":"","email":"","address":""},"financial":{"occupation":"","income_range":"","source_of_funds":""},"documents_submitted":[],"verification_status":""}</KYC>
+<RESUME>{"type":"RESUME","personal":{"name":"","email":"","phone":"","location":"","linkedin":""},"summary":"","skills":[],"experience":[{"company":"","role":"","duration":"","description":""}],"education":[{"institution":"","degree":"","year":""}],"certifications":[],"languages":[],"availability":""}</RESUME>
+<UNKNOWN>{"type":"UNKNOWN","reason":"","possible_type":"","raw_fields":{}}</UNKNOWN>
+</Schemas>
+ 
+<Rules>
+- null for any missing field, never fabricate
+- aadhaar_number: exactly 12 digits | pan_number: AAAAA9999A pattern
+- UNKNOWN: put any readable key-value pairs into raw_fields
+- Add top-level "confidence":{field_name:0.0-1.0} for every extracted field
+  1.0=clearly visible | 0.7=minor OCR noise | 0.4=partial | 0.0=null/missing
+- OCR noise: ignore garbled tokens (random symbols, gibberish like "HegHe", "vgs}", "TT TT SEER"); extract meaning only from recognizable words, numbers, dates, and known field patterns
+</Rules>`;
 
-Given raw OCR text from a scanned document, do TWO things in ONE response:
-1. Identify the document type
-2. Extract all relevant fields based on that type
+export const OCR_SAMPLES = `
+<Samples>
+<AADHAAR>Government of India AADHAAR
+Rahul Verma DOB:15/08/1990 Male
+12,MG Road,Bengaluru 560034
+1234 5678 9012</AADHAAR>
+ 
+<PAN>INCOME TAX DEPARTMENT GOVT.OF INDIA
+VIKRAM NAMBIAR
+P K NAMBIAR
+22/06/1992
+ABCVN1234Z</PAN>
+ 
+<PASSPORT>REPUBLIC OF INDIA PASSPORT
+Surname:SINGH GivenNames:ROHAN KUMAR
+PassportNo:P1234567 DOB:12MAR1990 Sex:M
+P<INDSINGH<<ROHAN<KUMAR<<<<<<<<<<<<<<<
+P1234567<6IND9003122M3001044<<<<<<<<<4</PASSPORT>
+ 
+<DRIVING_LICENSE>TRANSPORT DEPT GOVT MAHARASHTRA DRIVING LICENCE
+DL No:MH12 20150034567 Name:RAJESH GUPTA DOB:03/11/1985
+DOI:14/05/2015 DOL:13/05/2035 Classes:LMV,MCWG RTO:Mumbai Central</DRIVING_LICENSE>
+ 
+<INVOICE>TAX INVOICE TechSoft Solutions Pvt Ltd GSTIN:27AABCT1234R1Z5
+Inv:INV-2024-001 Date:01/06/2024 Due:15/06/2024
+Web Dev x1 85000 | UI/UX x1 35000 | Server x1 15000
+Subtotal:135000 GST:24300 Total:159300 PAID</INVOICE>
+ 
+<INSURANCE>NEW INDIA ASSURANCE Health Insurance
+Policy No:HLT-2024-98761 Period:01Apr2024-31Mar2025
+Insured:Kavitha Nair DOB:15/04/1988
+SumInsured:1000000 Premium:14200/yr Nominee:Rajan Nair(Spouse)</INSURANCE>
+ 
+<KYC>KYC APPLICATION FORM
+Name:VIKRAM NAMBIAR DOB:22/06/1992 Gender:Male
+PAN:ABCVN1234Z Aadhaar:1234 5678 9012
+Occupation:Salaried Income:12-15Lakhs Source:Salary Status:VERIFIED</KYC>
+ 
+<RESUME>Hayden Smith 04501123456 haydensmith@email.com
+Career Objective: seeking part-time work
+Skills: Customer service, Teamwork
+Work Experience: Canteen Assistant 2022-2023
+Education: Park Hill Secondary College Year 11</RESUME>
+</Samples>`;
 
-Return ONLY a single valid JSON object. No markdown, no explanation.
+// ─── Gemini evaluation: rich 7-dimension scoring of actual extraction output ──
 
-=== TYPE DETECTION SIGNALS (read FIRST before picking a type) ===
-
-RESUME      → person's name at top + email/phone contact + sections like Skills, Experience, Education, Career Objective, Summary, Work History, Availability, References. NO government ID numbers.
-INVOICE     → "Invoice" or "Tax Invoice" heading + invoice number + line items with prices + subtotal/tax/total amounts + due date + two parties (seller and buyer).
-PASSPORT    → "PASSPORT" + passport number (letter + 7 digits) + MRZ lines at bottom (P<IND...).
-AADHAAR     → "AADHAAR" or "UIDAI" or "Unique Identification Authority" + 12-digit number (XXXX XXXX XXXX) + "Government of India".
-PAN         → "INCOME TAX DEPARTMENT" or "Permanent Account Number" + PAN format (5 letters + 4 digits + 1 letter e.g. ABCDE1234F).
-DRIVING_LICENSE → "DRIVING LICENCE" or "TRANSPORT DEPT" + DL number + vehicle classes (LMV, MCWG etc).
-INSURANCE   → "Policy No" or "Insurance Policy" + insured name + sum insured + premium + nominee.
-KYC         →  multiple ID types (PAN + Aadhaar) + occupation + income range.
-
-=== DOCUMENT SCHEMAS ===
-
-RESUME → {
-  "type": "RESUME",
-  "personal": { "name": "", "email": "", "phone": "", "location": "", "linkedin": "" },
-  "summary": "",
-  "skills": [],
-  "experience": [{ "company": "", "role": "", "duration": "", "description": "" }],
-  "education": [{ "institution": "", "degree": "", "year": "" }],
-  "certifications": [],
-  "languages": [],
-  "availability": ""
-}
-RESUME_OCR_SAMPLE:
-"""
-Hayden Smith | 04501 123 456 | haydensmith@email.com | Park Hill
-Career Objective
-Year 11 student seeking part-time customer service work. Strong communication skills.
-Availability: Mon–Fri 4:30pm–10pm, Sat–Sun 8am–11pm (up to 20 hrs/week)
-Key Skills
-• Customer service • Numeracy • Teamwork • Communication
-Work Experience
-Canteen Assistant — Soccer Club (2022–2023) — cash handling, customer service
-Education
-Park Hill Secondary College — Year 11 (current)
-References available on request
-"""
-
-PASSPORT → {
-  "type": "PASSPORT",
-  "personal": { "name": "", "dob": "", "gender": "", "nationality": "", "place_of_birth": "" },
-  "document": { "passport_number": "", "issue_date": "", "expiry_date": "", "file_number": "" },
-  "mrz": ""
-}
-PASSPORT_OCR_SAMPLE:
-"""
-REPUBLIC OF INDIA — PASSPORT
-Surname: SINGH  Given Names: ROHAN KUMAR
-Passport No: P1234567  Nationality: INDIAN
-DOB: 12 MAR 1990  Sex: M  Place of Birth: DELHI
-Issue: 05 JAN 2020  Expiry: 04 JAN 2030
-P<INDSINGH<<ROHAN<KUMAR<<<<<<<<<<<<<<<<<<<<<<
-P1234567<6IND9003122M3001044<<<<<<<<<<<<<<<<<4
-"""
-
-AADHAAR → {
-  "type": "AADHAAR",
-  "id": { "aadhaar_number": "", "vid": "" },
-  "personal": { "name": "", "dob": "", "gender": "", "address": "" },
-  "meta": { "issue_date": "" }
-}
-AADHAAR_OCR_SAMPLE:
-"""
-Government of India — AADHAAR
-Rahul Verma  DOB: 15/08/1990  Male
-Address: 12, MG Road, Koramangala, Bengaluru, Karnataka - 560034
-1234 5678 9012
-"""
-
-PAN → {
-  "type": "PAN",
-  "id": { "pan_number": "" },
-  "personal": { "name": "", "father_name": "", "dob": "" }
-}
-PAN_OCR_SAMPLE:
-"""
-INCOME TAX DEPARTMENT — GOVT. OF INDIA
-Permanent Account Number Card
-ABCVN1234Z
-Name: VIKRAM NAMBIAR
-Father's Name: P K NAMBIAR
-Date of Birth: 22/06/1992
-"""
-
-DRIVING_LICENSE → {
-  "type": "DRIVING_LICENSE",
-  "id": { "license_number": "" },
-  "personal": { "name": "", "dob": "", "address": "", "blood_group": "" },
-  "license": { "issue_date": "", "expiry_date": "", "vehicle_classes": [], "issuing_rto": "" }
-}
-DRIVING_LICENSE_OCR_SAMPLE:
-"""
-TRANSPORT DEPT — GOVT OF MAHARASHTRA — DRIVING LICENCE
-DL No: MH12 20150034567
-Name: RAJESH GUPTA  DOB: 03/11/1985  Blood Group: B+
-Address: 45, Bandra West, Mumbai - 400050
-Issue: 14/05/2015  Valid Till(NT): 13/05/2035  Valid Till(T): 13/05/2025
-Vehicle Classes: LMV, MCWG  RTO: Mumbai Central
-"""
-
-INVOICE → {
-  "type": "INVOICE",
-  "document": { "invoice_number": "", "invoice_date": "", "due_date": "", "po_number": "" },
-  "parties": {
-    "from": { "name": "", "address": "", "gstin": "", "contact": "" },
-    "to":   { "name": "", "address": "", "gstin": "", "customer_number": "" }
-  },
-  "items": [{ "description": "", "qty": "", "unit_price": "", "amount": "" }],
-  "totals": { "subtotal": "", "tax": "", "tax_rate": "", "total": "", "amount_due": "" },
-  "payment": { "status": "", "method": "", "bank": "" }
-}
-INVOICE_OCR_SAMPLE:
-"""
-INVOICE
-Invoice No: 90000001620   Invoice Date: 2025-06-21   Due Date: 2025-07-06
-Customer No: 1234567
-From: Canada Post Corporation, Ottawa ON
-To: Sample Business, 15 Main St, Barrie ON L4M 3C2
-Line Items:
-Parcels                         $97.98
-Commercial/Smartmail Marketing  $216.90
-Specialized Services            $1,240.00
-Subtotal: $1,554.88   HST: $118.13   Total: $1,673.01
-Amount Due: $1,673.01   Due: 2025-07-06
-Late payment: 18% per annum after due date
-"""
-
-INSURANCE → {
-  "type": "INSURANCE",
-  "document": { "policy_number": "", "policy_type": "", "issue_date": "", "expiry_date": "" },
-  "insured": { "name": "", "dob": "", "address": "" },
-  "coverage": { "sum_insured": "", "premium": "", "payment_frequency": "" },
-  "nominee": { "name": "", "relation": "" },
-  "insurer": { "company": "", "contact": "" }
-}
-INSURANCE_OCR_SAMPLE:
-"""
-NEW INDIA ASSURANCE CO. LTD. — Health Insurance Policy
-Policy No: HLT-2024-98761  Period: 01 Apr 2024 to 31 Mar 2025
-Insured: Kavitha Nair  DOB: 15/04/1988
-Address: 22, Linking Road, Bandra, Mumbai - 400050
-Sum Insured: Rs. 10,00,000  Premium: Rs. 14,200/year
-Nominee: Rajan Nair (Spouse)
-"""
-
-KYC → {
-  "type": "KYC",
-  "personal": { "name": "", "dob": "", "gender": "", "nationality": "" },
-  "ids": { "pan": "", "aadhaar": "", "passport": "" },
-  "contact": { "phone": "", "email": "", "address": "" },
-  "financial": { "occupation": "", "income_range": "", "source_of_funds": "" },
-  "documents_submitted": [],
-  "verification_status": ""
-}
-KYC_OCR_SAMPLE:
-"""
-KYC APPLICATION FORM
-Name: VIKRAM NAMBIAR  DOB: 22/06/1992  Gender: Male
-PAN: ABCVN1234Z  Aadhaar: 1234 5678 9012  Passport: K7654321
-Mobile: +91 94433 22100  Email: vikram.n@email.com
-Address: 12, MG Road, Kochi, Kerala - 682001
-Occupation: Salaried (IT)  Income: 12-15 Lakhs  Source: Salary
-Docs: PAN Card, Aadhaar Card, Bank Statement, Salary Slip
-Status: VERIFIED
-"""
-
-UNKNOWN → {
-  "type": "UNKNOWN",
-  "reason": "explain briefly why it could not be identified",
-  "possible_type": "your best guess if any",
-  "raw_fields": {}
-}
-
-=== RULES ===
-- Re-read the TYPE DETECTION SIGNALS above before choosing a type — do NOT guess from partial keywords
-- A RESUME never has a government-issued ID number (Aadhaar/PAN/passport). If name + email + education/skills are present → RESUME
-- An INVOICE always has an invoice number AND a total/amount due. If those are missing → UNKNOWN
-- Fill fields with null if not found — never guess or fabricate
-- For UNKNOWN: still extract any readable key-value pairs into raw_fields
-- aadhaar_number must be 12 digits | pan_number format: ABCDE1234F
-- Return ONLY the JSON object, nothing else
-- Add a top-level "confidence" object mapping each field key to a 0.0–1.0 score:
-    1.0 = clearly visible and unambiguous
-    0.7–0.9 = visible with minor OCR noise
-    0.4–0.6 = partially readable or reconstructed
-    0.0–0.3 = inferred/uncertain | null fields → 0.0`;
-
-export const EVALUATION_PROMPT = (
+export const EVALUATION_PROMPT_GEMINI = (
   docType: string,
-  unifiedPrompt: string,
-  sampleOCR: string
-): string => `
-You are an expert prompt engineer specializing in document intelligence systems and LLM evaluation.
+  ocrText: string,
+  extractedJson: string,
+): string => `You are a document extraction quality evaluator.
 
-Evaluate the following system prompt for extracting "${docType}" documents.
-Then test it against the provided OCR sample.
+Given the document type, raw OCR text, and the extracted JSON produced by an AI model, score how well the extraction performed.
 
-=== SYSTEM PROMPT BEING EVALUATED ===
-${unifiedPrompt}
+=== DOCUMENT TYPE ===
+${docType}
 
-=== SAMPLE OCR TEXT FOR ${docType} ===
-${sampleOCR}
+=== RAW OCR TEXT ===
+${ocrText}
 
-=== YOUR EVALUATION TASK ===
-Return ONLY a valid JSON object in this exact structure:
-
-{
-  "document_type": "${docType}",
-  "overall_score": 0,
-  "grade": "",
-  "dimensions": {
-    "type_detection":          { "score": 0, "reason": "", "strength": "", "weakness": "" },
-    "field_coverage":          { "score": 0, "reason": "", "strength": "", "weakness": "" },
-    "schema_clarity":          { "score": 0, "reason": "", "strength": "", "weakness": "" },
-    "ocr_noise_handling":      { "score": 0, "reason": "", "strength": "", "weakness": "" },
-    "json_output_reliability": { "score": 0, "reason": "", "strength": "", "weakness": "" },
-    "edge_case_handling":      { "score": 0, "reason": "", "strength": "", "weakness": "" },
-    "token_efficiency":        { "score": 0, "reason": "", "strength": "", "weakness": "" }
-  },
-  "simulated_extraction": {},
-  "missing_fields": [],
-  "recommended_improvements": [],
-  "production_ready": false
-}
+=== EXTRACTED JSON (model output) ===
+${extractedJson}
 
 === SCORING RULES ===
-- Every score is out of 10 (integer only)
-- overall_score = average of all 7 dimension scores (rounded to 1 decimal)
-- grade: "A" (9-10), "B" (7-8), "C" (5-6), "D" (3-4), "F" (0-2)
-- simulated_extraction: actually run the prompt logic on the OCR sample and show result
-- missing_fields: list any fields present in OCR but not captured by the schema
-- recommended_improvements: concrete actionable fixes (max 5 points)
+- Every dimension score: INTEGER 0–10 (not 0.0–1.0, not fractions)
+- overall_score = arithmetic mean of all 7 dimension scores, rounded to 1 decimal (e.g. if scores are 8,7,9,6,8,7,8 → 7.6)
+- grade: A=9–10 | B=7–8 | C=5–6 | D=3–4 | F=0–2
+- missing_fields: field names clearly readable in OCR text but null/absent in the extracted JSON
+- recommended_improvements: max 5 concrete, actionable fixes (short strings)
 - production_ready: true only if overall_score >= 7.5
 
 === DIMENSION DEFINITIONS ===
-type_detection        → How reliably will this prompt identify "${docType}" vs other types?
-field_coverage        → Does the schema capture all important fields for "${docType}"?
-schema_clarity        → Is the JSON schema unambiguous for the LLM to follow?
-ocr_noise_handling    → Can the prompt handle OCR errors, missing chars, garbled text?
-json_output_reliability → How likely is output to be valid parseable JSON every time?
-edge_case_handling    → Does it handle nulls, missing data, partial documents?
-token_efficiency      → Is the prompt concise or does it waste tokens on redundancy?
+type_detection         → Was "${docType}" the correct type? Check OCR for document type markers. 10=correct, 0=wrong.
+field_coverage         → Fraction of OCR-visible fields present in extracted JSON. 10=all fields found, 0=none.
+value_accuracy         → Do extracted values exactly match OCR text? 10=all match, 5=some wrong, 0=fabricated.
+ocr_noise_handling     → Were OCR artifacts (swapped chars, merged words, gibberish) handled correctly? 10=all fixed.
+json_output_reliability → Is the JSON valid, well-formed, schema-compliant? 10=perfect structure.
+completeness           → Are critical fields (name/date/id/contact) populated (not null/empty)? 10=all filled.
+confidence_calibration → Are per-field confidence scores calibrated to actual OCR clarity? 10=perfectly calibrated.
 
 Return ONLY the JSON object. No explanation outside it.`;
+
+// ─── Local evaluation: compact XML-tagged prompt for small models ─────────────
+// Only scores 4 meaningful dimensions; remaining 3 get fixed defaults to keep
+// context short and JSON output reliable on small models (phi3, mistral, gemma).
+
+export const EVALUATION_PROMPT_LOCAL = (
+  docType: string,
+  ocrText: string,
+  extractedJson: string,
+): string => `Score this document extraction. Return ONLY valid JSON.
+
+<DocType>${docType}</DocType>
+
+<OCR>
+${ocrText.slice(0, 2000)}
+</OCR>
+
+<Extracted>
+${extractedJson}
+</Extracted>
+
+<Rules>
+IMPORTANT: overall_score and every dimension score use scale 0 to 10 — NOT 0.0 to 1.0. Example: a score of 5 out of 10 is written as 5, not 0.5.
+
+type_detection: 10 if extracted.type matches DocType exactly, 0 if wrong type.
+  reason: explain match/mismatch. strength: what was correct. weakness: what was wrong.
+
+field_coverage: count non-null fields in Extracted, divide by total expected fields, multiply by 10, round to integer.
+  reason: state count found vs expected. strength: which key fields found. weakness: which key fields missing.
+
+value_accuracy: compare each extracted value to OCR text. 10=all match, 5=half match, 0=fabricated.
+  reason: list mismatches if any. strength: values that match exactly. weakness: values that are wrong or fabricated.
+
+completeness: check name/date/id/email/address fields. 10=all filled, 0=all null.
+  reason: list what is null. strength: filled fields. weakness: null fields.
+
+overall_score: (type_detection + field_coverage + value_accuracy + completeness) / 4, rounded to 1 decimal.
+  EXAMPLE: scores 8, 6, 7, 5 → overall_score = 6.5 (NOT 0.65)
+
+grade: A=9-10 | B=7-8 | C=5-6 | D=3-4 | F=0-2
+production_ready: true if overall_score >= 7.5
+missing_fields: array of field names visible in OCR but null in Extracted (empty array if none)
+recommended_improvements: array of max 3 short fix strings (empty array if none)
+</Rules>
+
+Return JSON with this exact structure:
+{"document_type":"${docType}","overall_score":0,"grade":"F","dimensions":{"type_detection":{"score":0,"reason":"","strength":"","weakness":""},"field_coverage":{"score":0,"reason":"","strength":"","weakness":""},"value_accuracy":{"score":0,"reason":"","strength":"","weakness":""},"completeness":{"score":0,"reason":"","strength":"","weakness":""}},"missing_fields":[],"recommended_improvements":[],"production_ready":false}`;
