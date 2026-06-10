@@ -290,8 +290,10 @@ function printDetailedReport(results: BatchEntry[]): void {
 
 async function runBatch(): Promise<void> {
   const rawArgs = process.argv.slice(2);
-  const useGemini = rawArgs.some((a) => a === '--gemini' || a === 'gemini');
-  const provider: LlmProvider = useGemini ? 'gemini' : 'local';
+  const PROVIDERS: LlmProvider[] = ['gemini', 'groq', 'local'];
+  const provider: LlmProvider = rawArgs
+    .map((a) => a.replace(/^--/, '') as LlmProvider)
+    .find((a) => PROVIDERS.includes(a)) ?? 'local';
 
   const resolved = FILES.map((f) => path.resolve(f));
   const missing = resolved.filter((f) => !fs.existsSync(f));

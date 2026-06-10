@@ -129,13 +129,15 @@ async function run(filePath: string, provider: LlmProvider): Promise<void> {
 // ─── CLI ──────────────────────────────────────────────────────────────────────
 
 const rawArgs = process.argv.slice(2);
-const useGemini = rawArgs.some((a) => a === '--gemini' || a === 'gemini');
-const provider: LlmProvider = useGemini ? 'gemini' : 'local';
-const inputFile = rawArgs.find((a) => a !== '--gemini' && a !== 'gemini' && a !== '--local' && a !== 'local');
+const PROVIDERS: LlmProvider[] = ['gemini', 'groq', 'local'];
+const provider: LlmProvider = rawArgs
+  .map((a) => a.replace(/^--/, '') as LlmProvider)
+  .find((a) => PROVIDERS.includes(a)) ?? 'local';
+const inputFile = rawArgs.find((a) => !PROVIDERS.includes(a.replace(/^--/, '') as LlmProvider));
 
 if (!inputFile) {
-  console.error('Usage:   npm run dev -- <path-to-file> [gemini|local]');
-  console.error('Example: npm run dev -- files/adhar_2.jpg gemini');
+  console.error('Usage:   npm run dev -- <path-to-file> [gemini|groq|local]');
+  console.error('Example: npm run dev -- files/adhar_2.jpg groq');
   process.exit(1);
 }
 

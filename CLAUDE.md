@@ -8,11 +8,11 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 # Type-check (no emit)
 npx tsc --noEmit
 
-# Run single file (interactive review)
-npm run dev -- files/adhar_2.jpg
+# Run single file (interactive review) — provider: gemini | groq | local (default)
+npm run dev -- files/adhar_2.jpg groq
 
 # Run batch evaluation over all files/ (writes batch_results.json)
-npm run batch
+npm run batch -- gemini   # or: groq | local (default)
 
 # Build to dist/
 npm run build
@@ -53,9 +53,13 @@ src/
 
 ## Environment
 
-`.env` requires:
+`.env` requires (per provider used):
 ```
-GEMINI_API_KEY=...
+GEMINI_API_KEY=...    # provider: gemini
+GROQ_API_KEY=...      # provider: groq (free key: https://console.groq.com)
+GROQ_MODEL=...        # optional, default llama-3.3-70b-versatile
+OLLAMA_BASE_URL=...   # optional, default http://localhost:11434 (provider: local)
+OLLAMA_MODEL=...      # optional, default phi3
 ```
 
-Models used: `gemini-2.0-flash` (extraction, fast/cheap) and `gemini-2.5-flash` (evaluation, higher quality).
+Models used: `gemini-2.5-flash-lite` (extraction — `gemini-2.0-flash` was shut down 2026-06-01), `gemini-2.5-flash` (evaluation), `llama-3.3-70b-versatile` via Groq (both phases, OpenAI-compatible `json_object` mode — output structure injected into prompt via `EVALUATION_OUTPUT_STRUCTURE` since Groq lacks Gemini's `responseSchema`).

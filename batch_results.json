@@ -1,104 +1,112 @@
 {
-  "generated_at": "2026-06-09T11:52:41.766Z",
+  "generated_at": "2026-06-10T11:56:23.004Z",
   "results": [
     {
       "file": "adhar1_2366193f.jpg",
       "modelDocType": "AADHAAR",
       "effectiveDocType": "AADHAAR",
       "staticScore": 83.33333333333333,
-      "llmScore": 0.5,
-      "finalScore": 4.416666666666666,
+      "llmScore": 7.1,
+      "finalScore": 7.716666666666666,
       "productionReady": false,
       "missingFields": [
-        "id",
-        "id.aadhaar_number"
+        "address",
+        "personal.address"
       ],
-      "lowConfidenceFields": [],
-      "weaknesses": [],
+      "lowConfidenceFields": [
+        "address (0%)"
+      ],
+      "weaknesses": [
+        "[type_detection] None",
+        "[field_coverage] Address field is missing",
+        "[value_accuracy] None",
+        "[ocr_noise_handling] Inability to handle all OCR artifacts",
+        "[json_output_reliability] None",
+        "[completeness] Address field is null",
+        "[confidence_calibration] Confidence score for address could be improved"
+      ],
       "improvements": [
-        "Correct the OCR text to match expected format.",
-        "Ensure all required fields are populated."
+        "Improve OCR noise handling",
+        "Enhance address field extraction",
+        "Refine confidence score for address field"
       ],
-      "llmExtractionRaw": "{\n \"type\": \"AADHAAR\",\n \"id\": {\n   \"aadhaar_number\": \"\"\n },\n \"personal\": {\n   \"name\": \"Sriram Mamundi\",\n   \"dob\": \"11/04/1992\"\n },\n \"gender\": \"Male\"\n }",
+      "llmExtractionRaw": "{\n  \"type\":\"AADHAAR\",\n   \"id\":{\n      \"aadhaar_number\":\"841615903267\"\n   },\n   \"personal\":{\n      \"name\":\"Sriram Mamundi\",\n      \"dob\":\"11/04/1992\",\n      \"gender\":\"Male\",\n      \"address\":null\n   },\n   \"confidence\":{\n      \"aadhaar_number\":1.0,\n      \"name\":1.0,\n      \"dob\":1.0,\n      \"gender\":0.7,\n      \"address\":0.0\n   }\n}",
       "extractedFields": {
         "type": "AADHAAR",
-        "confidence": {},
+        "confidence": {
+          "aadhaar_number": 1,
+          "name": 1,
+          "dob": 1,
+          "gender": 0.7,
+          "address": 0
+        },
         "id": {
-          "aadhaar_number": ""
+          "aadhaar_number": "841615903267"
         },
         "personal": {
           "name": "Sriram Mamundi",
-          "dob": "11/04/1992"
-        },
-        "gender": "Male"
+          "dob": "11/04/1992",
+          "gender": "Male",
+          "address": null
+        }
       },
       "llmEvaluation": {
         "document_type": "AADHAAR",
-        "overall_score": 0.5,
-        "grade": "C",
+        "overall_score": 7.1,
+        "grade": "B",
         "dimensions": {
           "type_detection": {
             "score": 10,
-            "reason": "",
-            "strength": "",
-            "weakness": ""
+            "reason": "The document type 'AADHAAR' is correctly detected as per the OCR markers.",
+            "strength": "Correct document type detection",
+            "weakness": "None"
           },
           "field_coverage": {
-            "score": 3,
-            "reason": "",
-            "strength": "",
-            "weakness": ""
+            "score": 8,
+            "reason": "Most fields like name, date of birth, and ID are present in the extracted JSON, but address is missing.",
+            "strength": "Presence of critical fields",
+            "weakness": "Address field is missing"
           },
           "value_accuracy": {
-            "score": 5,
-            "reason": "",
-            "strength": "",
-            "weakness": ""
+            "score": 10,
+            "reason": "Extracted values like name, date of birth, and ID match the OCR text exactly.",
+            "strength": "Accurate extraction of values",
+            "weakness": "None"
           },
           "ocr_noise_handling": {
-            "score": 8,
-            "reason": "not scored",
-            "strength": "",
-            "weakness": ""
+            "score": 6,
+            "reason": "Some OCR artifacts like 'Umps prer' and 'a5 - ar srrent wef seaflar gdlesryod' are not handled properly.",
+            "strength": "Handling of some OCR noise",
+            "weakness": "Inability to handle all OCR artifacts"
           },
           "json_output_reliability": {
             "score": 10,
-            "reason": "JSON present",
-            "strength": "",
-            "weakness": ""
+            "reason": "The JSON output is valid, well-formed, and schema-compliant with correct types.",
+            "strength": "Reliable JSON output",
+            "weakness": "None"
           },
           "completeness": {
-            "score": 3,
-            "reason": "",
-            "strength": "",
-            "weakness": ""
+            "score": 8,
+            "reason": "Critical fields like name, date of birth, and ID are populated, but address is null.",
+            "strength": "Presence of critical fields",
+            "weakness": "Address field is null"
           },
           "confidence_calibration": {
-            "score": 5,
-            "reason": "not scored",
-            "strength": "",
-            "weakness": ""
+            "score": 8,
+            "reason": "Confidence scores like 1 for aadhaar_number, name, and dob, and 0.7 for gender are reasonable, but 0 for address could be improved.",
+            "strength": "Reasonable confidence scores for most fields",
+            "weakness": "Confidence score for address could be improved"
           }
         },
         "missing_fields": [
-          "id"
+          "address"
         ],
         "recommended_improvements": [
-          "Correct the OCR text to match expected format.",
-          "Ensure all required fields are populated."
+          "Improve OCR noise handling",
+          "Enhance address field extraction",
+          "Refine confidence score for address field"
         ],
-        "production_ready": false,
-        "simulated_extraction": {
-          "type": "AADHAAR",
-          "confidence": {},
-          "id": {
-            "aadhaar_number": ""
-          },
-          "personal": {
-            "name": "Sriram Mamundi",
-            "dob": "11/04/1992"
-          }
-        }
+        "production_ready": false
       },
       "ocrText": "5\n2 am— - : :\nBS 7 Wf rid wr per.\nSriram Mamundi\nUmps prer / DOB : 11/04/1992\noir | MALE SIS he >\nBRET\n8416 1590 3267  EEHEEl\na5 - ar srrent wef seaflar gdlesryod",
       "ocrLength": 162,
@@ -120,93 +128,105 @@
     },
     {
       "file": "pan_1.jpg",
-      "modelDocType": "UNKNOWN",
+      "modelDocType": "PAN",
       "effectiveDocType": "PAN",
-      "staticScore": 50,
-      "llmScore": 0.7,
-      "finalScore": 2.85,
+      "staticScore": 100,
+      "llmScore": 7.1,
+      "finalScore": 8.55,
       "productionReady": false,
-      "missingFields": [],
-      "lowConfidenceFields": [],
-      "weaknesses": [],
-      "improvements": [
-        "Populate missing fields"
+      "missingFields": [
+        "personal.dob"
       ],
-      "llmExtractionRaw": "{\n  \"type\": \"UNKNOWN\",\n  \"confidence\": {\"Permanent Account Number\": 0.7},\n  \"raw_fields\": {\n    \"Permanent Account Number\": \"Y Lid ae oe\"\n  }\n}",
+      "lowConfidenceFields": [
+        "dob (0%)"
+      ],
+      "weaknesses": [
+        "[type_detection] None",
+        "[field_coverage] Missing 'dob' field",
+        "[value_accuracy] Null 'dob' value",
+        "[ocr_noise_handling] Unhandled OCR noise in original text",
+        "[json_output_reliability] None",
+        "[completeness] Null 'dob' value",
+        "[confidence_calibration] Overly confident 'pan_number' score"
+      ],
+      "improvements": [
+        "Handle OCR noise and artifacts in the original text",
+        "Improve confidence calibration for 'pan_number' field",
+        "Consider adding 'dob' field to the extracted JSON if it's present in the OCR text"
+      ],
+      "llmExtractionRaw": "{\n  \"type\":\"PAN\",\n   \"id\":{\n      \"pan_number\":\"BWZPS1234R\"\n   },\n   \"personal\":{\n      \"name\":\"TWITTERPREET SINGH\",\n      \"father_name\":\"BALWINDER SINGH\",\n      \"dob\":null\n   },\n   \"confidence\":{\n      \"pan_number\":1.0,\n      \"name\":0.7,\n      \"father_name\":0.7,\n      \"dob\":0.0\n   }\n}",
       "extractedFields": {
-        "type": "UNKNOWN",
+        "type": "PAN",
         "confidence": {
-          "Permanent Account Number": 0.7
+          "pan_number": 1,
+          "name": 0.7,
+          "father_name": 0.7,
+          "dob": 0
         },
-        "raw_fields": {
-          "Permanent Account Number": "Y Lid ae oe"
+        "id": {
+          "pan_number": "BWZPS1234R"
+        },
+        "personal": {
+          "name": "TWITTERPREET SINGH",
+          "father_name": "BALWINDER SINGH",
+          "dob": null
         }
       },
       "llmEvaluation": {
         "document_type": "PAN",
-        "overall_score": 0.7,
-        "grade": "C",
+        "overall_score": 7.1,
+        "grade": "B",
         "dimensions": {
           "type_detection": {
             "score": 10,
-            "reason": "",
-            "strength": "",
-            "weakness": ""
+            "reason": "The OCR text contains 'INCOME TAX DEPARTMENT' and 'Permanent Account Number', which are strong indicators of a PAN document.",
+            "strength": "Correct document type detection",
+            "weakness": "None"
           },
           "field_coverage": {
-            "score": 5,
-            "reason": "",
-            "strength": "",
-            "weakness": ""
+            "score": 8,
+            "reason": "The extracted JSON contains most of the fields present in the OCR text, including 'name', 'father_name', and 'pan_number'. However, 'dob' is missing.",
+            "strength": "Most fields are covered",
+            "weakness": "Missing 'dob' field"
           },
           "value_accuracy": {
-            "score": 0,
-            "reason": "",
-            "strength": "",
-            "weakness": ""
+            "score": 8,
+            "reason": "The extracted values for 'name', 'father_name', and 'pan_number' match the OCR text. However, 'dob' is null in the extracted JSON, which is correct since it's not present in the OCR text.",
+            "strength": "Accurate values for most fields",
+            "weakness": "Null 'dob' value"
           },
           "ocr_noise_handling": {
-            "score": 5,
-            "reason": "not scored",
-            "strength": "",
-            "weakness": ""
+            "score": 6,
+            "reason": "The extracted JSON does not contain any obvious OCR noise or artifacts. However, the OCR text contains some gibberish characters like '€p' and 'HegHe', which are not handled in the extracted JSON.",
+            "strength": "No obvious OCR noise in extracted JSON",
+            "weakness": "Unhandled OCR noise in original text"
           },
           "json_output_reliability": {
-            "score": 8,
-            "reason": "JSON present",
-            "strength": "",
-            "weakness": ""
+            "score": 10,
+            "reason": "The extracted JSON is valid, well-formed, and schema-compliant.",
+            "strength": "Reliable JSON output",
+            "weakness": "None"
           },
           "completeness": {
-            "score": 0,
-            "reason": "",
-            "strength": "",
-            "weakness": ""
+            "score": 8,
+            "reason": "Most critical fields like 'name', 'father_name', and 'pan_number' are populated in the extracted JSON. However, 'dob' is null.",
+            "strength": "Most critical fields are populated",
+            "weakness": "Null 'dob' value"
           },
           "confidence_calibration": {
-            "score": 5,
-            "reason": "not scored",
-            "strength": "",
-            "weakness": ""
+            "score": 6,
+            "reason": "The confidence scores for 'name' and 'father_name' are 0.7, which is reasonable given the OCR clarity. However, the confidence score for 'pan_number' is 1.0, which might be overly confident.",
+            "strength": "Reasonable confidence scores for most fields",
+            "weakness": "Overly confident 'pan_number' score"
           }
         },
         "missing_fields": [],
         "recommended_improvements": [
-          "Populate missing fields"
+          "Handle OCR noise and artifacts in the original text",
+          "Improve confidence calibration for 'pan_number' field",
+          "Consider adding 'dob' field to the extracted JSON if it's present in the OCR text"
         ],
-        "production_ready": false,
-        "simulated_extraction": {
-          "type": "PAN",
-          "confidence": {
-            "score": 0.7,
-            "reason": "",
-            "strength": "",
-            "weakness": ""
-          },
-          "raw_fields": {
-            "Permanent Account Number": "Y Lid ae oe"
-          }
-        }
+        "production_ready": false
       },
       "ocrText": "SMASH TAT 1H HARA AIH\nINCOME TAX DEPARTMENT €p GOVT OF INDIA\nHegHe\n\nTWITTERPREET SINGH = Poe\nBALWINDER SINGH + ae Be\nAT 72.0 Ys |\n\nSU 95 4 i Gh edts\nPermanent Account Number Y Lid {\n\nBWZPS1234R a oe\nTwitterpreet Singh bh ve 3\nSignature J la i %",
       "ocrLength": 244,
@@ -226,93 +246,119 @@
         },
         "topCount": 3
       },
-      "classificationMatch": false
+      "classificationMatch": true
     },
     {
       "file": "indianpp_passport.jpg",
-      "modelDocType": "UNKNOWN",
+      "modelDocType": "PASSPORT",
       "effectiveDocType": "PASSPORT",
       "staticScore": 50,
-      "llmScore": 0.5,
-      "finalScore": 2.75,
+      "llmScore": 7.1,
+      "finalScore": 6.05,
       "productionReady": false,
       "missingFields": [
-        "ID Number",
-        "reason"
+        "document.file_number"
       ],
-      "lowConfidenceFields": [],
+      "lowConfidenceFields": [
+        "file_number (0%)"
+      ],
       "weaknesses": [
-        "[value_accuracy] Fabricated or incorrect"
+        "[type_detection] None",
+        "[field_coverage] Some fields like 'file_number' are missing or null.",
+        "[value_accuracy] Minor issues with handling OCR noise.",
+        "[ocr_noise_handling] Inconsistent handling of OCR artifacts.",
+        "[json_output_reliability] None",
+        "[completeness] Some fields like 'file_number' are null.",
+        "[confidence_calibration] Room for improvement in confidence calibration."
       ],
       "improvements": [
-        "Correct the OCR text to accurately capture name, date of birth and issue/expiry dates",
-        "Ensure ID number is present in extracted data",
-        "Verify accuracy of all values against original document"
+        "Improve OCR noise handling for fields like 'mrz'.",
+        "Enhance confidence calibration for fields with minor issues.",
+        "Consider adding a check for 'file_number' presence in the OCR text."
       ],
-      "llmExtractionRaw": "{\n \"type\": \"UNKNOWN\",\n \"id\": {\n  \n },\n \"reason\": \"\",\n \"possible_type\": \"AADHAAR/PAN/PASSPORT/DRIVING_LICENSE/INSURANCE/INVOICE/KYC/RESUME\",\n \n \"raw_fields\": {\n   \n }\n}",
+      "llmExtractionRaw": "{\n  \"type\":\"PASSPORT\",\n   \"personal\":{\n      \"name\":\"SPECIMEN KUMAR\",\n      \"dob\":\"24/05/1985\",\n      \"gender\":\"M\",\n      \"nationality\":\"INDIAN\",\n      \"place_of_birth\":\"MUMBAI, MAHARASHTRA\"\n   },\n   \"document\":{\n      \"passport_number\":\"20000000\",\n      \"issue_date\":\"01/01/2013\",\n      \"expiry_date\":\"01/01/2023\",\n      \"file_number\":null\n   },\n   \"mrz\":\"P<<SPECIMEN<<KKUMAR<LGLLLLLLLLLLLLKLLLKLLKLKLLLKLKLKLKL\\n219999999<0IND8505246M2300000<<<<<<K<<<<L<K<LK<LKL<L4\",\n   \"confidence\":{\n      \"name\":0.7,\n      \"dob\":1.0,\n      \"gender\":1.0,\n      \"nationality\":0.7,\n      \"place_of_birth\":1.0,\n      \"passport_number\":0.7,\n      \"issue_date\":1.0,\n      \"expiry_date\":1.0,\n      \"file_number\":0.0,\n      \"mrz\":0.7\n   }\n}",
       "extractedFields": {
-        "type": "UNKNOWN",
-        "confidence": {},
-        "id": {},
-        "reason": "",
-        "possible_type": "AADHAAR/PAN/PASSPORT/DRIVING_LICENSE/INSURANCE/INVOICE/KYC/RESUME",
-        "raw_fields": {}
+        "type": "PASSPORT",
+        "confidence": {
+          "name": 0.7,
+          "dob": 1,
+          "gender": 1,
+          "nationality": 0.7,
+          "place_of_birth": 1,
+          "passport_number": 0.7,
+          "issue_date": 1,
+          "expiry_date": 1,
+          "file_number": 0,
+          "mrz": 0.7
+        },
+        "personal": {
+          "name": "SPECIMEN KUMAR",
+          "dob": "24/05/1985",
+          "gender": "M",
+          "nationality": "INDIAN",
+          "place_of_birth": "MUMBAI, MAHARASHTRA"
+        },
+        "document": {
+          "passport_number": "20000000",
+          "issue_date": "01/01/2013",
+          "expiry_date": "01/01/2023",
+          "file_number": null
+        },
+        "mrz": "P<<SPECIMEN<<KKUMAR<LGLLLLLLLLLLLLKLLLKLLKLKLLLKLKLKLKL\n219999999<0IND8505246M2300000<<<<<<K<<<<L<K<LK<LKL<L4"
       },
       "llmEvaluation": {
         "document_type": "PASSPORT",
-        "overall_score": 0.5,
-        "grade": "C",
+        "overall_score": 7.1,
+        "grade": "B",
         "dimensions": {
           "type_detection": {
             "score": 10,
-            "reason": "",
-            "strength": "",
-            "weakness": ""
+            "reason": "The OCR text contains 'REPUBLIC OF INDIA' and 'PASSPORT' markers, correctly identifying the document type.",
+            "strength": "Correct document type identification",
+            "weakness": "None"
           },
           "field_coverage": {
-            "score": 2,
-            "reason": "",
-            "strength": "",
-            "weakness": ""
+            "score": 8,
+            "reason": "Most fields like name, date of birth, gender, nationality, and passport number are present in the extracted JSON.",
+            "strength": "Presence of critical fields",
+            "weakness": "Some fields like 'file_number' are missing or null."
           },
           "value_accuracy": {
-            "score": 0,
-            "reason": "Extracted values do not match OCR text",
-            "strength": "",
-            "weakness": "Fabricated or incorrect"
+            "score": 8,
+            "reason": "Extracted values like 'SPECIMEN KUMAR', '24/05/1985', 'M', 'INDIAN', and '20000000' match the OCR text.",
+            "strength": "Accurate extraction of most fields",
+            "weakness": "Minor issues with handling OCR noise."
           },
           "ocr_noise_handling": {
-            "score": 5,
-            "reason": "not scored",
-            "strength": "",
-            "weakness": ""
+            "score": 6,
+            "reason": "The extracted JSON shows some handling of OCR artifacts but could be improved, especially with the 'mrz' field.",
+            "strength": "Attempt to handle OCR noise",
+            "weakness": "Inconsistent handling of OCR artifacts."
           },
           "json_output_reliability": {
-            "score": 8,
-            "reason": "JSON present",
-            "strength": "",
-            "weakness": ""
+            "score": 10,
+            "reason": "The JSON output is valid, well-formed, and schema-compliant with correct types.",
+            "strength": "Reliable JSON output",
+            "weakness": "None"
           },
           "completeness": {
-            "score": 0,
-            "reason": "Name/date/id fields are not populated",
-            "strength": "",
-            "weakness": ""
+            "score": 8,
+            "reason": "Critical fields like name, date of birth, and passport number are populated.",
+            "strength": "Presence of critical fields",
+            "weakness": "Some fields like 'file_number' are null."
           },
           "confidence_calibration": {
-            "score": 5,
-            "reason": "not scored",
-            "strength": "",
-            "weakness": ""
+            "score": 6,
+            "reason": "Confidence scores generally track OCR clarity but could be more accurate, especially for fields with high confidence and minor issues.",
+            "strength": "Generally accurate confidence scores",
+            "weakness": "Room for improvement in confidence calibration."
           }
         },
-        "missing_fields": [
-          "ID Number"
-        ],
+        "missing_fields": [],
         "recommended_improvements": [
-          "Correct the OCR text to accurately capture name, date of birth and issue/expiry dates",
-          "Ensure ID number is present in extracted data",
-          "Verify accuracy of all values against original document"
+          "Improve OCR noise handling for fields like 'mrz'.",
+          "Enhance confidence calibration for fields with minor issues.",
+          "Consider adding a check for 'file_number' presence in the OCR text."
         ],
         "production_ready": false
       },
@@ -333,184 +379,150 @@
         },
         "topCount": 2
       },
-      "classificationMatch": false
+      "classificationMatch": true
     },
     {
       "file": "resume_sample_student8ea47e04a8fe67e6b7acff0000376a3b.pdf",
       "modelDocType": "RESUME",
       "effectiveDocType": "RESUME",
-      "staticScore": 80,
-      "llmScore": 6.5,
-      "finalScore": 7.25,
-      "productionReady": false,
+      "staticScore": 60,
+      "llmScore": 7.9,
+      "finalScore": 6.95,
+      "productionReady": true,
       "missingFields": [
-        "education",
-        "referees",
         "summary",
-        "experience.0.achievements (empty)",
-        "experience.1.achievements (empty)",
-        "experience.2.responsibilities (empty)",
-        "experience.2.achievements (empty)",
-        "experience.3.responsibilities (empty)",
-        "experience.3.achievements (empty)",
+        "certifications",
+        "linkedin",
+        "personal.linkedin",
+        "summary",
+        "skills",
         "education.0.degree",
         "education.0.year",
-        "referees.0.contact",
-        "referees.0.relation"
+        "certifications",
+        "languages",
+        "availability"
       ],
-      "lowConfidenceFields": [],
+      "lowConfidenceFields": [
+        "linkedin (0%)"
+      ],
       "weaknesses": [
-        "[field_coverage] Lack of formal qualifications or certifications mentioned",
-        "[completeness] Lack of work experience and education information"
+        "[type_detection] None",
+        "[field_coverage] Missing some fields like 'summary' and 'certifications'",
+        "[value_accuracy] None",
+        "[ocr_noise_handling] None",
+        "[json_output_reliability] None",
+        "[completeness] Some non-critical fields are not populated",
+        "[confidence_calibration] Could be improved for certain fields"
       ],
       "improvements": [
-        "Include education details and referee contacts.",
-        "Add work experience relevant to the job applied for."
+        "Populate 'summary' field based on career objective and experience",
+        "Consider adding 'certifications' field if relevant to the applicant",
+        "Improve confidence calibration for less clear fields"
       ],
-      "llmExtractionRaw": "{\n \"type\": \"RESUME\",\n \"personal\": {\n   \"name\": \"Hayden Smith\",\n   \"email\": \"haydensmith@email.com\"\n },\n \"summary\": \"\",\n \"skills\": [\n    \"Customer service ability demonstrated when working efficiently in soccer club canteen.\",\n    \"Numeracy skills for cash handling tasks proven by achieving good results for mathematics subjects.\",\n    \"Highly developed communication skills shown by receiving positive feedback from supervisors after completing work experience.\",\n    \"Strong ability to work as part of a team developed through participating in soccer since the age of eight.\",\n    \"Demonstrated organisation skills as a result handing all assignments in on time.\"\n ],\n \"experience\": [\n   {\n     \"company\": \"Park Hill Soccer Club\",\n     \"role\": \"Customer service (volunteer)\",\n     \"duration\": \"December 2016 – March 2017\",\n     \"responsibilities\": [\"Served customers.\", \"Handled cash including operating of cash register.\"],\n     \"achievements\": []\n   },\n   {\n     \"company\": \"Argo Newsagency\",\n     \"role\": \"Newspaper deliverer\",\n     \"duration\": \"June 2016 – February 2017\",\n     \"responsibilities\": [\"Delivered weekend newspapers to houses.\"],\n     \"achievements\": []\n   },\n   {\n     \"company\": \"Park Hill Soccer Club\",\n     \"role\": \"Soccer umpire for under 14 team\",\n     \"duration\": \"2016 – current\",\n     \"responsibilities\": [],\n     \"achievements\": []\n   },\n   {\n     \"company\": \"Park Hill Soccer Club\",\n     \"role\": \"Assistant Coach for junior players\",\n     \"duration\": \"2017 – current\",\n     \"responsibilities\": [],\n     \"achievements\": []\n   }\n ],\n \"education\": [\n    {\n      \"institution\": \"Park Hill Secondary College\",\n      \"degree\": \"\",\n      \"year\": \"\"\n    },\n    {\n      \"subjects\": [\"Maths\", \"English\", \"Business Management\", \"VET studies in Sport and Recreation\"],\n      \"type\": \"Year 11\"\n    }\n   ],\n \"referees\": [\n     {\n       \"name\": \"John Charles\",\n       \"contact\": \"\",\n       \"relation\": \"\"\n     },\n     {\n         \"name\": \"Wendy Stevens\",\n         \"relation\": \"Year 11 Coordinator\"\n     }\n   ],\n \"interests\": [\n    \"Played soccer since the age of eight.\",\n    \"Keen spectator of soccer, football and cricket.\"\n   ],\n \"availability\": {\n      \"Monday – Friday: 4.30pm – 10.00pm\":\"up to 20 hours per week\",\n      \"Saturday – Sunday: 8.00am – 11.00pm\":\"available on request\"\n   }\n}",
+      "llmExtractionRaw": "{\n  \"type\":\"RESUME\",\n   \"personal\":{\n      \"name\":\"Hayden Smith\",\n      \"email\":\"haydensmith@email.com\",\n      \"phone\":\"04501 123 456\",\n      \"location\":\"Park Hill, 3045\",\n      \"linkedin\":null\n   },\n   \"summary\":null,\n   \"skills\":null,\n   \"experience\":[\n      {\n         \"company\":\"Park Hill Soccer Club Canteen\",\n         \"role\":\"Customer service (volunteer)\",\n         \"duration\":\"December 2016 - March 2017\",\n         \"description\":\"Served customers. Handled cash including operating of cash register.\"\n      },\n      {\n         \"company\":\"Argo Newsagency\",\n         \"role\":\"Newspaper deliverer\",\n         \"duration\":\"June 2016 - February 2017\",\n         \"description\":\"Delivered weekend newspapers to houses.\"\n      }\n   ],\n   \"education\":[\n      {\n         \"institution\":\"Park Hill Secondary College\",\n         \"degree\":null,\n         \"year\":null,\n         \"subjects\":\"Maths, English, Business Management, VET studies in Sport and Recreation\"\n      }\n   ],\n   \"certifications\":null,\n   \"languages\":null,\n   \"availability\":null,\n   \"confidence\":{\n      \"name\":1.0,\n      \"email\":1.0,\n      \"phone\":1.0,\n      \"location\":1.0,\n      \"linkedin\":0.0\n   }\n}",
       "extractedFields": {
         "type": "RESUME",
-        "confidence": {},
+        "confidence": {
+          "name": 1,
+          "email": 1,
+          "phone": 1,
+          "location": 1,
+          "linkedin": 0
+        },
         "personal": {
           "name": "Hayden Smith",
-          "email": "haydensmith@email.com"
+          "email": "haydensmith@email.com",
+          "phone": "04501 123 456",
+          "location": "Park Hill, 3045",
+          "linkedin": null
         },
-        "summary": "",
-        "skills": [
-          "Customer service ability demonstrated when working efficiently in soccer club canteen.",
-          "Numeracy skills for cash handling tasks proven by achieving good results for mathematics subjects.",
-          "Highly developed communication skills shown by receiving positive feedback from supervisors after completing work experience.",
-          "Strong ability to work as part of a team developed through participating in soccer since the age of eight.",
-          "Demonstrated organisation skills as a result handing all assignments in on time."
-        ],
+        "summary": null,
+        "skills": null,
         "experience": [
           {
-            "company": "Park Hill Soccer Club",
+            "company": "Park Hill Soccer Club Canteen",
             "role": "Customer service (volunteer)",
-            "duration": "December 2016 – March 2017",
-            "responsibilities": [
-              "Served customers.",
-              "Handled cash including operating of cash register."
-            ],
-            "achievements": []
+            "duration": "December 2016 - March 2017",
+            "description": "Served customers. Handled cash including operating of cash register."
           },
           {
             "company": "Argo Newsagency",
             "role": "Newspaper deliverer",
-            "duration": "June 2016 – February 2017",
-            "responsibilities": [
-              "Delivered weekend newspapers to houses."
-            ],
-            "achievements": []
-          },
-          {
-            "company": "Park Hill Soccer Club",
-            "role": "Soccer umpire for under 14 team",
-            "duration": "2016 – current",
-            "responsibilities": [],
-            "achievements": []
-          },
-          {
-            "company": "Park Hill Soccer Club",
-            "role": "Assistant Coach for junior players",
-            "duration": "2017 – current",
-            "responsibilities": [],
-            "achievements": []
+            "duration": "June 2016 - February 2017",
+            "description": "Delivered weekend newspapers to houses."
           }
         ],
         "education": [
           {
             "institution": "Park Hill Secondary College",
-            "degree": "",
-            "year": ""
-          },
-          {
-            "subjects": [
-              "Maths",
-              "English",
-              "Business Management",
-              "VET studies in Sport and Recreation"
-            ],
-            "type": "Year 11"
+            "degree": null,
+            "year": null,
+            "subjects": "Maths, English, Business Management, VET studies in Sport and Recreation"
           }
         ],
-        "referees": [
-          {
-            "name": "John Charles",
-            "contact": "",
-            "relation": ""
-          },
-          {
-            "name": "Wendy Stevens",
-            "relation": "Year 11 Coordinator"
-          }
-        ],
-        "interests": [
-          "Played soccer since the age of eight.",
-          "Keen spectator of soccer, football and cricket."
-        ],
-        "availability": {
-          "Monday – Friday: 4.30pm – 10.00pm": "up to 20 hours per week",
-          "Saturday – Sunday: 8.00am – 11.00pm": "available on request"
-        }
+        "certifications": null,
+        "languages": null,
+        "availability": null
       },
       "llmEvaluation": {
         "document_type": "RESUME",
-        "overall_score": 6.5,
-        "grade": "C",
+        "overall_score": 7.9,
+        "grade": "B",
         "dimensions": {
           "type_detection": {
             "score": 10,
-            "reason": "",
-            "strength": "Exact match to DocType.",
-            "weakness": ""
+            "reason": "The document type is correctly identified as 'RESUME' based on the presence of typical resume sections such as 'Career Objective', 'Availability', 'Key Skills', 'Education', 'Work Experience', and 'Referees'.",
+            "strength": "Correct identification of document type",
+            "weakness": "None"
           },
           "field_coverage": {
-            "score": 7,
-            "reason": "Missing education and referees fields",
-            "strength": "Key personal details extracted.",
-            "weakness": "Lack of formal qualifications or certifications mentioned"
+            "score": 8,
+            "reason": "Most fields present in the OCR text are extracted, including name, email, phone, location, education, work experience, and skills. However, some fields like 'summary' and 'certifications' are not populated.",
+            "strength": "Extraction of key fields",
+            "weakness": "Missing some fields like 'summary' and 'certifications'"
           },
           "value_accuracy": {
-            "score": 9,
-            "reason": "Most values match OCR text.",
-            "strength": "",
-            "weakness": ""
+            "score": 10,
+            "reason": "Extracted values match the OCR text exactly, with no evidence of fabrication or significant discrepancies.",
+            "strength": "High accuracy of extracted values",
+            "weakness": "None"
           },
           "ocr_noise_handling": {
-            "score": 5,
-            "reason": "Some irrelevant information included in skills section",
-            "strength": "",
-            "weakness": ""
+            "score": 10,
+            "reason": "There is no visible evidence of OCR noise or artifacts in the extracted JSON, suggesting effective handling of any potential issues.",
+            "strength": "Effective handling of OCR noise",
+            "weakness": "None"
           },
           "json_output_reliability": {
-            "score": 8,
-            "reason": "JSON output is well-structured and complete.",
-            "strength": "",
-            "weakness": ""
+            "score": 10,
+            "reason": "The JSON output is valid, well-formed, and schema-compliant, with correct types for all fields.",
+            "strength": "Reliable JSON output",
+            "weakness": "None"
           },
           "completeness": {
-            "score": 9,
-            "reason": "Name, email present",
-            "strength": "Personal details are populated.",
-            "weakness": "Lack of work experience and education information"
+            "score": 8,
+            "reason": "Critical fields such as name, email, phone, and location are populated. However, some fields like 'summary' and 'certifications' are not populated, which might be expected in a resume but are not critical.",
+            "strength": "Populated critical fields",
+            "weakness": "Some non-critical fields are not populated"
           },
           "confidence_calibration": {
-            "score": 7,
-            "reason": "",
-            "strength": "",
-            "weakness": ""
+            "score": 8,
+            "reason": "Confidence scores are generally well-calibrated, with high confidence on correctly extracted values and lower confidence on missing or less clear fields.",
+            "strength": "Well-calibrated confidence scores",
+            "weakness": "Could be improved for certain fields"
           }
         },
         "missing_fields": [
-          "education",
-          "referees"
+          "summary",
+          "certifications",
+          "linkedin"
         ],
         "recommended_improvements": [
-          "Include education details and referee contacts.",
-          "Add work experience relevant to the job applied for."
+          "Populate 'summary' field based on career objective and experience",
+          "Consider adding 'certifications' field if relevant to the applicant",
+          "Improve confidence calibration for less clear fields"
         ],
-        "production_ready": false
+        "production_ready": true
       },
       "ocrText": "Hayden   Smith  214 Mitre Avenue, Park Hill, 3045 | 04501 123 456 | haydensmith@email.com  Page 1  (Tip: Name, mobile number and email address are essential. Current address could be included especially if you live nearby. Ensure that it is clearly displayed)  Career Objective  I am reliable hard working Year 11 student seeking casual or part-time customer service work in a sports retail environment. Having played soccer for nine years and a keen all-round sports enthusiast, I am looking to contribute knowledge and proven communications skills.  (Tip: A career objective isn’t essential, but it’s useful if you don't have much experience and can convey enthusiasm and motivation. Briefly summarise any work you have done, your strengths and relevant expertise and state how you aim to apply this to your career goal. Adjust the statement to reflect the role you are applying for.)  Availability  Monday – Friday: 4.30pm – 10.00pm  Saturday – Sunday: 8.00am – 11.00pm  (up to 20 hours per week)  (Tip: When looking for part-time casual work, it can be a good idea to include availability. If you’re a student, clearly state the maximum number of hours you are able to work per week.)  Key Skills  •   Customer service ability demonstrated when working efficiently in soccer club canteen.  •   Numeracy skills for cash handling tasks proven by achieving good results for mathematics subjects.  •   Highly developed communication skills shown by receiving positive feedback from supervisors after completing work experience.  •   Strong ability to work as part of a team developed through participating in soccer since the age of eight.  •   Demonstrated organisation skills as a result handing all assignments in on time.  •   Able to take responsibility and solve problems proven through umpiring and coaching.  (Tip: Include 5-9 key skills as bullet points that you like using and that are relevant to the role. When applying for advertised roles, match to any criteria listed in the advertisement. Use action words such as ‘demonstrated’ or ‘highly developed’ and then provide information about when, where and how you’ve used the skill through your studies, work experience, volunteering, sporting activities, etc.)  Education  Current  Park Hill Secondary College   Year 11  •   Subjects include: Maths, English, Business Management, VET studies in Sport and Recreation.  (Tip: List your most recent education qualifications first including any relevant university degrees and certificates. Professional development such as short training courses, workshops, licences, forms of accreditation, and other training can be included but is usually a separate heading.)  Work Experience\n\nHayden Smith  Page 2  December 2016 – March 2017  Park Hill Soccer Club Canteen   Customer service (volunteer)  •   Served customers.  •   Handled cash including operating of cash register.  June 2016 – February 2017  Argo Newsagency   Newspaper deliverer  •   Delivered weekend newspapers to houses.  (Tip: Focus on most recent work experience first. Include your job title, organisation name and dates. Years and months can be included. Include responsibilities and achievements for each role.)  Leadership Roles  2016 – current  Soccer umpire for under 14 team   Park Hill Soccer Club  2017 – current  Assistant Coach for junior players   Park Hill Soccer Club  (Tip: Include any volunteering, community participation or leaderships roles.)  Interests/Hobbies  •   Played soccer since the age of eight.  •   Keen spectator of soccer, football and cricket.  (Tip: Including a section on interests can be useful if it’s relevant and active. Only include those interests which are relevant to the job you are applying for or those which demonstrate your proactive or positive traits.)  Referees  John Charles  Coach  Hill Park Soccer Club  0456 789 101  John_charles@hillpark.edu  Wendy Stevens  Year 11 Coordinator  Hill Park Secondary College  *Contact details available on request  (Tip: If you decide to include referee contacts, notify the referee and indicate the type of roles that you will be applying for. You may also want to provide them with a copy of your resume. You can also simply write ‘Available on request’.)",
       "ocrLength": 4218,
@@ -539,138 +551,160 @@
       "file": "wordpress-pdf-invoice-plugin-sample.pdf",
       "modelDocType": "INVOICE",
       "effectiveDocType": "INVOICE",
-      "staticScore": 90,
-      "llmScore": 0.5,
-      "finalScore": 4.75,
-      "productionReady": false,
+      "staticScore": 100,
+      "llmScore": 8.6,
+      "finalScore": 9.3,
+      "productionReady": true,
       "missingFields": [
-        "invoice number",
-        "due date",
-        "customer number",
-        "gstin",
-        "parties.from.customer_number",
+        "document.po_number",
         "parties.from.gstin",
-        "parties.to.name",
-        "parties.to.address",
         "parties.to.gstin",
-        "payment.status",
-        "payment.method",
-        "payment.bank"
+        "parties.to.customer_number",
+        "totals.tax_rate",
+        "payment.method"
       ],
-      "lowConfidenceFields": [],
+      "lowConfidenceFields": [
+        "po_number (0%)",
+        "from.gstin (0%)",
+        "to.gstin (0%)",
+        "to.customer_number (0%)",
+        "totals.tax_rate (0%)",
+        "payment.method (0%)"
+      ],
       "weaknesses": [
-        "[completeness] Lack of ID/GSTIN information"
+        "[type_detection] None",
+        "[field_coverage] None",
+        "[value_accuracy] None",
+        "[ocr_noise_handling] None",
+        "[json_output_reliability] None",
+        "[completeness] None",
+        "[confidence_calibration] Minor confidence score discrepancies"
       ],
       "improvements": [
-        "Add 'INVOICE' as document type explicitly.",
-        "Include all required fields in the schema such as customer name, address and GSTIN."
+        "Review confidence score calculations for minor discrepancies",
+        "Consider adding more detailed error handling for OCR noise",
+        "Expand testing to cover a wider range of document types and formats"
       ],
-      "llmExtractionRaw": "{\n \"type\": \"INVOICE\",\n \"document\": {\n     \"invoice_number\": \"INV-3337\",\n     \"invoice_date\": \"January 25, 2016\"\n },\n \"parties\": {\n     \"from\": {\n         \"name\": \"Test Business\",\n         \"address\": \"123 Somewhere St Melbourne, VIC 3000\",\n         \"customer_number\": \"\",\n         \"gstin\": \"\"\n     },\n     \"to\": {\n         \"name\": \"\",\n         \"address\": \"\",\n         \"gstin\": \"\"\n     }\n },\n \"items\": [\n     {\n         \"description\": \"Service\",\n         \"qty\": 1,\n         \"unit_price\": \"$85.00\",\n         \"amount\": \"$85.00\"\n     },\n     {\n         \"tax\": {\n             \"rate\": \"%\",\n             \"total\": \"$8.50\"\n         }\n     },\n     {\n         \"sub_total\": \"$85.00\"\n     },\n     {\n         \"amount_due\": \"$93.50\"\n     }\n ],\n \"payment\": {\n     \"status\": \"\",\n     \"method\": \"\",\n     \"bank\": \"\"\n }\n}",
+      "llmExtractionRaw": "{\n  \"type\":\"INVOICE\",\n   \"document\":{\n      \"invoice_number\":\"INV-3337\",\n      \"invoice_date\":\"January 25, 2016\",\n      \"due_date\":\"January 31, 2016\",\n      \"po_number\":null\n   },\n   \"parties\":{\n      \"from\":{\n         \"name\":\"DEMO - Sliced Invoices\",\n         \"address\":\"Suite 5A-1204 123 Somewhere Street Your City AZ 12345\",\n         \"gstin\":null\n      },\n      \"to\":{\n         \"name\":\"Test Business\",\n         \"address\":\"123 Somewhere St Melbourne, VIC 3000\",\n         \"gstin\":null,\n         \"customer_number\":null\n      }\n   },\n   \"items\":[\n      {\n         \"description\":\"Web Design This is a sample description...\",\n         \"qty\":\"1.00\",\n         \"unit_price\":\"$85.00\",\n         \"amount\":\"$85.00\"\n      }\n   ],\n   \"totals\":{\n      \"subtotal\":\"$85.00\",\n      \"tax\":\"$8.50\",\n      \"tax_rate\":null,\n      \"total\":\"$93.50\",\n      \"amount_due\":\"$93.50\"\n   },\n   \"payment\":{\n      \"status\":\"Paid\",\n      \"method\":null,\n      \"bank\":\"ANZ Bank ACC # 1234 1234 BSB # 4321 432\"\n   },\n   \"confidence\":{\n      \"invoice_number\":1.0,\n      \"invoice_date\":1.0,\n      \"due_date\":1.0,\n      \"po_number\":0.0,\n      \"from.name\":1.0,\n      \"from.address\":1.0,\n      \"from.gstin\":0.0,\n      \"to.name\":1.0,\n      \"to.address\":1.0,\n      \"to.gstin\":0.0,\n      \"to.customer_number\":0.0,\n      \"items\":1.0,\n      \"totals.subtotal\":1.0,\n      \"totals.tax\":1.0,\n      \"totals.tax_rate\":0.0,\n      \"totals.total\":1.0,\n      \"totals.amount_due\":1.0,\n      \"payment.status\":1.0,\n      \"payment.method\":0.0,\n      \"payment.bank\":1.0\n   }\n}",
       "extractedFields": {
         "type": "INVOICE",
-        "confidence": {},
+        "confidence": {
+          "invoice_number": 1,
+          "invoice_date": 1,
+          "due_date": 1,
+          "po_number": 0,
+          "from.name": 1,
+          "from.address": 1,
+          "from.gstin": 0,
+          "to.name": 1,
+          "to.address": 1,
+          "to.gstin": 0,
+          "to.customer_number": 0,
+          "items": 1,
+          "totals.subtotal": 1,
+          "totals.tax": 1,
+          "totals.tax_rate": 0,
+          "totals.total": 1,
+          "totals.amount_due": 1,
+          "payment.status": 1,
+          "payment.method": 0,
+          "payment.bank": 1
+        },
         "document": {
           "invoice_number": "INV-3337",
-          "invoice_date": "January 25, 2016"
+          "invoice_date": "January 25, 2016",
+          "due_date": "January 31, 2016",
+          "po_number": null
         },
         "parties": {
           "from": {
-            "name": "Test Business",
-            "address": "123 Somewhere St Melbourne, VIC 3000",
-            "customer_number": "",
-            "gstin": ""
+            "name": "DEMO - Sliced Invoices",
+            "address": "Suite 5A-1204 123 Somewhere Street Your City AZ 12345",
+            "gstin": null
           },
           "to": {
-            "name": "",
-            "address": "",
-            "gstin": ""
+            "name": "Test Business",
+            "address": "123 Somewhere St Melbourne, VIC 3000",
+            "gstin": null,
+            "customer_number": null
           }
         },
         "items": [
           {
-            "description": "Service",
-            "qty": 1,
+            "description": "Web Design This is a sample description...",
+            "qty": "1.00",
             "unit_price": "$85.00",
             "amount": "$85.00"
-          },
-          {
-            "tax": {
-              "rate": "%",
-              "total": "$8.50"
-            }
-          },
-          {
-            "sub_total": "$85.00"
-          },
-          {
-            "amount_due": "$93.50"
           }
         ],
+        "totals": {
+          "subtotal": "$85.00",
+          "tax": "$8.50",
+          "tax_rate": null,
+          "total": "$93.50",
+          "amount_due": "$93.50"
+        },
         "payment": {
-          "status": "",
-          "method": "",
-          "bank": ""
+          "status": "Paid",
+          "method": null,
+          "bank": "ANZ Bank ACC # 1234 1234 BSB # 4321 432"
         }
       },
       "llmEvaluation": {
         "document_type": "INVOICE",
-        "overall_score": 0.5,
-        "grade": "C",
+        "overall_score": 8.6,
+        "grade": "B",
         "dimensions": {
           "type_detection": {
             "score": 10,
-            "reason": "Exact match with DocType 'INVOICE'",
-            "strength": "Strong",
-            "weakness": ""
+            "reason": "The OCR text clearly contains the word 'Invoice' and other invoice-related keywords, confirming the document type.",
+            "strength": "Correct document type detection",
+            "weakness": "None"
           },
           "field_coverage": {
-            "score": 4,
-            "reason": "Some non-null fields present in Extracted but missing schema fields like 'invoice number' and 'due date',",
-            "strength": "Moderate",
-            "weakness": ""
+            "score": 10,
+            "reason": "All relevant fields such as invoice number, date, and totals are present in the extracted JSON.",
+            "strength": "All necessary fields are covered",
+            "weakness": "None"
           },
           "value_accuracy": {
             "score": 10,
-            "reason": "Extracted values match OCR text accurately.",
-            "strength": "Strong",
-            "weakness": ""
+            "reason": "Extracted values match the OCR text exactly, with no discrepancies found.",
+            "strength": "Accurate value extraction",
+            "weakness": "None"
           },
           "ocr_noise_handling": {
-            "score": 5,
-            "reason": "Not scored as it's not part of the schema evaluation criteria.",
-            "strength": "",
-            "weakness": ""
+            "score": 10,
+            "reason": "No OCR artifacts or noise were found in the extracted JSON, indicating proper handling.",
+            "strength": "Effective OCR noise handling",
+            "weakness": "None"
           },
           "json_output_reliability": {
-            "score": 8,
-            "reason": "JSON present",
-            "strength": "Strong",
-            "weakness": ""
+            "score": 10,
+            "reason": "The JSON output is valid, well-formed, and schema-compliant, with correct types.",
+            "strength": "Reliable JSON output",
+            "weakness": "None"
           },
           "completeness": {
-            "score": 2,
-            "reason": "Name and date fields are populated.",
-            "strength": "",
-            "weakness": "Lack of ID/GSTIN information"
+            "score": 10,
+            "reason": "All critical fields such as name, date, and contact information are populated.",
+            "strength": "Complete critical fields",
+            "weakness": "None"
           },
           "confidence_calibration": {
-            "score": 5,
-            "reason": "Not scored as it's not part of the schema evaluation criteria.",
-            "strength": "",
-            "weakness": ""
+            "score": 8,
+            "reason": "Confidence scores generally track actual OCR clarity, but some minor discrepancies were found.",
+            "strength": "Generally well-calibrated confidence",
+            "weakness": "Minor confidence score discrepancies"
           }
         },
-        "missing_fields": [
-          "invoice number",
-          "due date",
-          "customer number",
-          "gstin"
-        ],
+        "missing_fields": [],
         "recommended_improvements": [
-          "Add 'INVOICE' as document type explicitly.",
-          "Include all required fields in the schema such as customer name, address and GSTIN."
+          "Review confidence score calculations for minor discrepancies",
+          "Consider adding more detailed error handling for OCR noise",
+          "Expand testing to cover a wider range of document types and formats"
         ],
-        "production_ready": false
+        "production_ready": true
       },
       "ocrText": "Invoice  Payment is due within 30 days from date of invoice. Late payment is subject to fees of 5% per month. Thanks for choosing DEMO - Sliced Invoices | admin@slicedinvoices.com Page 1/1  From:  DEMO - Sliced Invoices Suite 5A-1204 123 Somewhere Street Your City AZ 12345 admin@slicedinvoices.com Invoice Number   INV-3337 Order Number   12345 Invoice Date   January 25, 2016 Due Date   January 31, 2016  Total Due   $93.50 To:  Test Business 123 Somewhere St Melbourne, VIC 3000 test@test.com  Hrs/Qty   Service   Rate/Price   Adjust   Sub Total  1.00   Web Design This is a sample description...   $85.00   0.00%   $85.00 Sub Total   $85.00 Tax   $8.50  Total   $93.50  ANZ Bank ACC # 1234 1234 BSB # 4321 432  Paid",
       "ocrLength": 719,

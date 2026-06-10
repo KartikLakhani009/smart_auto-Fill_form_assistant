@@ -1,4 +1,4 @@
-export type LlmProvider = 'gemini' | 'local';
+export type LlmProvider = 'gemini' | 'groq' | 'local';
 
 export type DocumentType =
   | 'RESUME'
